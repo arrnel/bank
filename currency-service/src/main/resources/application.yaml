@@ -1,0 +1,67 @@
+server:
+  port: ${CURRENCY_SERVICE_PORT:8091}
+
+spring:
+  application:
+    name: currency-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    generate-ddl: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    schemas: flyway
+    locations: classpath:db/migration/currency-service
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
+    org.springframework.web: INFO
+    org.springframework.ws: INFO
+    org.springframework.boot.autoconfigure: INFO
+
+app:
+  api:
+    version: 0.0.1
+  integration:
+    external:
+      currency:
+        calculator_net:
+          url: 'https://www.calculator.net/currency-calculator.html'
+        currency_freak:
+          url: 'https://api.currencyfreaks.com/v2.0/rates'
+          api_key: ${CURRENCY_FREAKS_API_KEY}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  datasource:
+    url: 'jdbc:postgresql://localhost:${DB_PORT:5432}/currency-service'
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:secret}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  datasource:
+    url: 'jdbc:postgresql://localhost:${DB_PORT:5432}/currency-service'
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:secret}
+
+---
