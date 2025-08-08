@@ -1,0 +1,105 @@
+server:
+  port: ${PAYMENT_SERVICE_PORT:8092}
+
+spring:
+  application:
+    name: payment-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    generate-ddl: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    schemas: flyway
+    locations: classpath:db/migration/payment-service
+  kafka:
+    admin:
+      properties:
+        offsets.topic.replication.factor: 1
+        transaction.state.log.replication.factor: 1
+        transaction.state.log.min.isr: 1
+    topics:
+      - name: "operation-topic"
+        partitions: 1
+        replication-factor: 1
+      - name: "operation-result-topic"
+        partitions: 1
+        replication-factor: 1
+    bootstrap-servers:
+      - localhost:9092
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
+    org.springframework.web: INFO
+    org.springframework.ws: INFO
+    org.springframework.boot.autoconfigure: INFO
+
+app:
+  api:
+    version: 0.0.1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+  datasource:
+    url: 'jdbc:postgresql://localhost:${DB_PORT:5432}/payment-service'
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:secret}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: default
+      password: redis
+    cache:
+      type: redis
+
+
+app:
+  integration:
+    internal:
+      currency:
+        url: 'http://localhost:8091'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  datasource:
+    url: 'jdbc:postgresql://postgres:${DB_PORT:5432}/payment-service'
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:secret}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: default
+      password: redis
+    cache:
+      type: redis
+
+app:
+  integration:
+    internal:
+      currency:
+        url: 'http://currency.bank.dc:${CURRENCY_PORT:8091}'
+
+---
