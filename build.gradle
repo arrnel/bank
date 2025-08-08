@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'com.github.ben-manes.versions' version '0.52.0'
+}
+
+group = 'com.arrnel'
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    repositories {
+        mavenCentral()
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+}
+
+subprojects {
+
+    ext {
+        dockerHubName = "arrnel"
+        apacheCommonsVersion = '3.17.0'
+        lombokVersion = '1.18.38'
+        springKafkaVersion = '3.3.8'
+        springCloudVersion = '2025.0.0'
+        postgresDriverVersion = '42.7.7'
+        fakerVersion = '1.0.2'
+        flywayVersion = '11.10.5'
+        junitJupiterVersion = '5.11.4'
+        openApiVersion = '2.6.0'
+        spotBugsVersion = '4.9.3'
+
+        dockerImage = System.getProperty("os.arch") == "aarch64" || System.getProperty("os.arch") == "arm64"
+                ? "arm64v8/eclipse-temurin:21-jdk"
+                : "eclipse-temurin:21-jdk"
+        dockerArch = System.getProperty("os.arch") == "aarch64" || System.getProperty("os.arch") == "arm64"
+                ? "arm64"
+                : "amd64"
+
+    }
+
+}

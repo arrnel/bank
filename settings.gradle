@@ -1,0 +1,4 @@
+rootProject.name = 'bank'
+include 'currency-service'
+include 'gateway-service'
+include 'payment-service'
