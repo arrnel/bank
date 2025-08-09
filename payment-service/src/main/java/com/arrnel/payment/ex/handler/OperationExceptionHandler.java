@@ -1,6 +1,7 @@
 package com.arrnel.payment.ex.handler;
 
 import com.arrnel.payment.controller.kafka.OperationResultProducer;
+import com.arrnel.payment.data.enums.OperationStatus;
 import com.arrnel.payment.ex.CurrencyNotFoundException;
 import com.arrnel.payment.ex.IllegalOperationException;
 import com.arrnel.payment.ex.OperationProcessingException;
@@ -48,6 +49,7 @@ public class OperationExceptionHandler implements CommonErrorHandler {
                 OperationResultProducer.OPERATION_RESULT_TOPIC,
                 requestId,
                 operationType,
+                OperationStatus.FAILED,
                 jsonConverter.convertToJson(apiError)
         );
     }
@@ -68,7 +70,7 @@ public class OperationExceptionHandler implements CommonErrorHandler {
 
         final var errorItems = ex.getErrors().stream()
                 .map(error -> new ApiErrorDTO.ErrorItem(
-                        "", // URI недоступен в Kafka context
+                        "",
                         error.getField(),
                         "[%s] %s".formatted(error.getCode(), error.getDefaultMessage())))
                 .toList();
