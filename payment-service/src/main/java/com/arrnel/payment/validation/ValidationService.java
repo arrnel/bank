@@ -1,6 +1,7 @@
 package com.arrnel.payment.validation;
 
 import com.arrnel.payment.ex.IllegalOperationException;
+import com.arrnel.payment.ex.handler.OperationExceptionHandler;
 import com.arrnel.payment.model.enums.OperationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ValidationService {
 
     private final Validator validator;
+    private final OperationExceptionHandler operationExceptionHandler;
 
     public void validate(String requestId, OperationType operationType, Object object, String objectName) {
 
@@ -23,8 +25,11 @@ public class ValidationService {
         validator.validate(object, bindingResult);
 
         if (bindingResult.hasErrors())
-            throw new IllegalOperationException(requestId, operationType, bindingResult.getFieldErrors());
-
+            operationExceptionHandler.handleException(
+                    new IllegalOperationException(bindingResult.getFieldErrors()),
+                    requestId,
+                    operationType
+            );
     }
 
 }

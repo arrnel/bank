@@ -24,7 +24,7 @@ public class OperationConsumer {
     @KafkaListener(topics = "operation-topic", containerFactory = "kafkaListenerContainerFactory")
     public void consumeOperation(final ConsumerRecord<String, String> kafkaRecord) {
 
-        var operation = getPaymentTransactionOperation(kafkaRecord);
+        var operation = getPaymentOperation(kafkaRecord);
         var handler = operationHandlers.get(operation);
 
         if (handler == null)
@@ -40,7 +40,7 @@ public class OperationConsumer {
     }
 
     @Nonnull
-    private OperationType getPaymentTransactionOperation(final ConsumerRecord<String, String> kafkaRecord) {
+    private OperationType getPaymentOperation(final ConsumerRecord<String, String> kafkaRecord) {
         var commandHeader = kafkaRecord.headers().lastHeader("operation_type");
         return commandHeader != null
                 ? OperationType.fromString(new String(commandHeader.value()))
