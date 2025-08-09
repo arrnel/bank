@@ -31,8 +31,9 @@ public class KafkaTestController {
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                CREATE_BANK_ACCOUNT
+                CREATE_BANK_ACCOUNT,
+                jsonConverter.convertToJson(requestDTO)
+
         );
         return new ResponseEntity<>(CREATED);
     }
@@ -43,8 +44,8 @@ public class KafkaTestController {
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                CREATE_CURRENCY_WALLET
+                CREATE_CURRENCY_WALLET,
+                jsonConverter.convertToJson(requestDTO)
         );
         return new ResponseEntity<>(CREATED);
     }
@@ -56,21 +57,21 @@ public class KafkaTestController {
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                DEPOSIT
+                DEPOSIT,
+                jsonConverter.convertToJson(requestDTO)
         );
         return new ResponseEntity<>(CREATED);
     }
 
     @PostMapping("/transfer")
     @ResponseStatus(CREATED)
-    public ResponseEntity<Void> depositTransaction(@RequestBody CreateTransferRequestDTO requestDTO) {
+    public ResponseEntity<Void> transferTransaction(@RequestBody CreateTransferRequestDTO requestDTO) {
         var requestId = UUID.randomUUID().toString();
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                TRANSFER
+                TRANSFER,
+                jsonConverter.convertToJson(requestDTO)
         );
         return new ResponseEntity<>(CREATED);
     }
@@ -82,8 +83,8 @@ public class KafkaTestController {
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                REFUND
+                REFUND,
+                jsonConverter.convertToJson(requestDTO)
         );
         return new ResponseEntity<>(CREATED);
     }
@@ -95,8 +96,8 @@ public class KafkaTestController {
         operationResultProducer.produceResult(
                 OPERATION_TOPIC,
                 requestId,
-                jsonConverter.convertToJson(requestDTO),
-                WITHDRAWAL
+                WITHDRAWAL,
+                jsonConverter.convertToJson(requestDTO)
         );
         return new ResponseEntity<>(CREATED);
     }

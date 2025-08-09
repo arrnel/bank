@@ -3,7 +3,7 @@ create schema if not exists app;
 create table if not exists app.bank_accounts
 (
     id            bigserial    not null unique check (id > 0),
-    user_id       bigserial    not null check (user_id > 0),
+    user_id       bigserial    not null unique check (user_id > 0),
     error_message varchar(2000),
     created_at    timestamp(3) not null,
     updated_at    timestamp(3) not null,

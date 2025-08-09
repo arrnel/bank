@@ -25,8 +25,9 @@ public class OperationResultProducer {
 
     public void produceResult(String topic,
                               String requestId,
-                              String message,
-                              OperationType operation
+                              OperationType operation,
+                              String message
+
     ) {
         var kafkaMessage = buildMessage(topic, requestId, message, operation, null);
         kafkaTemplate.send(kafkaMessage);
@@ -35,9 +36,9 @@ public class OperationResultProducer {
 
     public void produceResult(String topic,
                               String requestId,
-                              String message,
                               OperationType operation,
-                              OperationStatus operationStatus
+                              OperationStatus operationStatus,
+                              String message
     ) {
         var kafkaMessage = buildMessage(topic, requestId, message, operation, operationStatus);
         kafkaTemplate.send(kafkaMessage);
