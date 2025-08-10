@@ -27,8 +27,6 @@ public class CreateCurrencyWalletHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateCurrencyWalletRequestDTO.class);
         validationService.validate(
-                requestId,
-                OperationType.CREATE_CURRENCY_WALLET,
                 request,
                 CreateCurrencyWalletRequestDTO.class.getSimpleName()
         );
