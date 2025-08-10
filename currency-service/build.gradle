@@ -41,8 +41,8 @@ dependencies {
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.ext.junitJupiterVersion}"
 
 	// Utils
-	implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 	implementation "com.github.spotbugs:spotbugs-annotations:${project.ext.spotBugsVersion}"
+
 }
 
 dependencyManagement {

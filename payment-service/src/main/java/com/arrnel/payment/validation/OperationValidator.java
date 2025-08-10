@@ -8,8 +8,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 @Slf4j
@@ -19,10 +17,9 @@ public abstract class OperationValidator<A extends Annotation, T> implements Con
     protected final MessageSource messageSource;
     protected final Locale locale = LocaleContextHolder.getLocale();
 
-    protected boolean isValid;
-    protected List<String> errors = new ArrayList<>();
-    protected A anno;
     protected ConstraintValidatorContext context;
+    protected boolean isValid;
+    protected A anno;
 
     protected OperationValidator(MessageSource messageSource) {
         this.messageSource = messageSource;
