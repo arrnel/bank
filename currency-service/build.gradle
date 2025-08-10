@@ -42,7 +42,7 @@ dependencies {
 
 	// Utils
 	implementation "com.github.spotbugs:spotbugs-annotations:${project.ext.spotBugsVersion}"
-	
+
 }
 
 dependencyManagement {
