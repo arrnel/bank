@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,7 +24,7 @@ import java.util.Locale;
 @Component
 @RequiredArgsConstructor
 @ParametersAreNonnullByDefault
-public class OperationExceptionHandler implements CommonErrorHandler {
+public class OperationExceptionHandler {
 
     private final MessageSource messageSource;
     private final JsonConverter jsonConverter;

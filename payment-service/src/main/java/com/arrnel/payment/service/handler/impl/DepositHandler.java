@@ -27,8 +27,6 @@ public class DepositHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateDepositRequestDTO.class);
         validationService.validate(
-                requestId,
-                OperationType.DEPOSIT,
                 request,
                 CreateDepositRequestDTO.class.getSimpleName()
         );

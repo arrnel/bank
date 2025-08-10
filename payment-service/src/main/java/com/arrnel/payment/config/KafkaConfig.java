@@ -1,6 +1,5 @@
 package com.arrnel.payment.config;
 
-import com.arrnel.payment.ex.handler.OperationExceptionHandler;
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -38,12 +37,10 @@ public class KafkaConfig {
     @Bean
     @Nonnull
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
-            final ConsumerFactory<String, String> consumerFactory,
-            final OperationExceptionHandler operationExceptionHandler
+            final ConsumerFactory<String, String> consumerFactory
     ) {
         final ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
-        factory.setCommonErrorHandler(operationExceptionHandler);
 
         return factory;
     }

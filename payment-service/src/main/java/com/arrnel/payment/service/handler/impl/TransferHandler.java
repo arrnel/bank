@@ -27,8 +27,6 @@ public class TransferHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateTransferRequestDTO.class);
         validationService.validate(
-                requestId,
-                OperationType.TRANSFER,
                 request,
                 CreateTransferRequestDTO.class.getSimpleName()
         );

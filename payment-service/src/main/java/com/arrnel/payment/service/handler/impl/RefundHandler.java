@@ -27,8 +27,6 @@ public class RefundHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateRefundRequestDTO.class);
         validationService.validate(
-                requestId,
-                REFUND,
                 request,
                 CreateRefundRequestDTO.class.getSimpleName()
         );
