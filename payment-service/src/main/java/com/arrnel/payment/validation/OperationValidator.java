@@ -11,7 +11,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Component
@@ -20,7 +19,7 @@ public abstract class OperationValidator<A extends Annotation, T> implements Con
     protected final MessageSource messageSource;
     protected final Locale locale = LocaleContextHolder.getLocale();
 
-    protected final AtomicBoolean isValid = new AtomicBoolean(true);
+    protected boolean isValid;
     protected List<String> errors = new ArrayList<>();
     protected A anno;
     protected ConstraintValidatorContext context;
@@ -37,10 +36,11 @@ public abstract class OperationValidator<A extends Annotation, T> implements Con
 
     @Override
     public boolean isValid(T request, ConstraintValidatorContext context) {
+        isValid = true;
         this.context = context;
         this.context.disableDefaultConstraintViolation();
         validate(request);
-        return isValid.get();
+        return isValid;
     }
 
     public abstract void validate(T request);
@@ -55,7 +55,7 @@ public abstract class OperationValidator<A extends Annotation, T> implements Con
                 .addPropertyNode(propertyNode)
                 .addConstraintViolation();
 
-        isValid.set(false);
+        isValid = false;
     }
 
 }

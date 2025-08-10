@@ -1,6 +1,7 @@
 package com.arrnel.payment.controller.kafka;
 
 import com.arrnel.payment.ex.OperationHandlerNotFoundException;
+import com.arrnel.payment.ex.handler.OperationExceptionHandler;
 import com.arrnel.payment.model.enums.OperationType;
 import com.arrnel.payment.service.handler.OperationHandler;
 import jakarta.annotation.Nonnull;
@@ -17,14 +18,16 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @ParametersAreNonnullByDefault
-public class OperationConsumer {
+public class OperationListener {
 
     private final Map<OperationType, OperationHandler> operationHandlers;
+    private final OperationExceptionHandler operationExceptionHandler;
 
     @KafkaListener(topics = "operation-topic", containerFactory = "kafkaListenerContainerFactory")
     public void consumeOperation(final ConsumerRecord<String, String> kafkaRecord) {
 
         var operation = getPaymentOperation(kafkaRecord);
+        var requestId = kafkaRecord.key();
         var handler = operationHandlers.get(operation);
 
         if (handler == null)
@@ -32,10 +35,14 @@ public class OperationConsumer {
                     "Unknown operation: %s. RECORD: %s".formatted(operation, kafkaRecord)
             );
 
-        handler.process(
-                kafkaRecord.key(),
-                kafkaRecord.value()
-        );
+        try {
+            handler.process(
+                    kafkaRecord.key(),
+                    kafkaRecord.value()
+            );
+        } catch (Exception ex) {
+            operationExceptionHandler.handleException(ex, requestId, operation);
+        }
 
     }
 

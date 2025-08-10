@@ -27,8 +27,6 @@ public class CreateBankAccountHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateBankAccountRequestDTO.class);
         validationService.validate(
-                requestId,
-                OperationType.CREATE_BANK_ACCOUNT,
                 request,
                 CreateBankAccountRequestDTO.class.getSimpleName()
         );

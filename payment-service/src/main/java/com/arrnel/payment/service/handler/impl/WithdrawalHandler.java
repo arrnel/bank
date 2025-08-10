@@ -27,8 +27,6 @@ public class WithdrawalHandler implements OperationHandler {
     public void process(String requestId, String message) {
         var request = jsonConverter.convertToObj(message, CreateWithdrawalRequestDTO.class);
         validationService.validate(
-                requestId,
-                OperationType.WITHDRAWAL,
                 request,
                 CreateWithdrawalRequestDTO.class.getSimpleName()
         );
