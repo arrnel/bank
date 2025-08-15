@@ -31,7 +31,7 @@ public class CurrencyWalletValidator extends OperationValidator<ValidCurrencyWal
             addErrorAndMarkNotValid("bankAccountId",
                     BANK_ACCOUNT_NOT_FOUND,
                     "Bank account with id [%d] not found".formatted(bankAccountId),
-                    new Long[]{bankAccountId}
+                    new String[]{bankAccountId.toString()}
             );
         }
     }
