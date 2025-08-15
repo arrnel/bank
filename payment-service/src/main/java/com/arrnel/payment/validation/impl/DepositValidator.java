@@ -39,7 +39,7 @@ public class DepositValidator extends OperationValidator<ValidDeposit, CreateDep
                     "currencyWalletId",
                     ValidationCode.DEPOSIT_CURRENCY_WALLET_NOT_FOUND,
                     "Currency wallet not found by id = [%d]".formatted(sourceCwId),
-                    new Long[]{sourceCwId});
+                    new String[]{sourceCwId.toString()});
         }
     }
 

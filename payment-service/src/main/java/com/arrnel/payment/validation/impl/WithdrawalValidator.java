@@ -11,6 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Component
@@ -41,7 +42,7 @@ public class WithdrawalValidator extends OperationValidator<ValidWithdrawal, Cre
                     "from",
                     ValidationCode.WITHDRAW_CURRENCY_WALLET_NOT_FOUND,
                     "Currency wallet not found by id = [%d]".formatted(cwId),
-                    new Long[]{cwId});
+                    new String[]{cwId.toString()});
         }
     }
 
@@ -54,7 +55,10 @@ public class WithdrawalValidator extends OperationValidator<ValidWithdrawal, Cre
                     "amount",
                     ValidationCode.WITHDRAW_NOT_ENOUGH_MONEY,
                     "Not enough money for withdraw. Available currency wallet amount = [%s], expected amount = [%s]".formatted(actualAmount, amount),
-                    new BigDecimal[]{actualAmount, amount}
+                    new String[]{
+                            actualAmount.setScale(2, RoundingMode.CEILING).toPlainString(),
+                            amount.setScale(2, RoundingMode.CEILING).toPlainString()
+                    }
             );
         }
     }
