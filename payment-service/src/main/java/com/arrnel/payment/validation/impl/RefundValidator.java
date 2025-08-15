@@ -15,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 import static com.arrnel.payment.data.enums.PaymentType.TRANSFER;
@@ -68,7 +69,7 @@ public class RefundValidator extends OperationValidator<ValidRefund, CreateRefun
                     "transferId",
                     TRANSFER_NOT_FOUND,
                     "Transfer transaction not found by id = [%d]".formatted(transferId),
-                    new Long[]{transferId});
+                    new String[]{transferId.toString()});
         }
     }
 
@@ -89,7 +90,7 @@ public class RefundValidator extends OperationValidator<ValidRefund, CreateRefun
                     "from",
                     REFUND_SOURCE_CURRENCY_WALLET_NOT_FOUND,
                     "Source currency wallet not found by id = [%d]".formatted(sourceCwId),
-                    new Long[]{sourceCwId});
+                    new String[]{sourceCwId.toString()});
         }
     }
 
@@ -99,7 +100,7 @@ public class RefundValidator extends OperationValidator<ValidRefund, CreateRefun
                     "to",
                     REFUND_DESTINATION_CURRENCY_WALLET_NOT_FOUND,
                     "Destination currency wallet not found by id = [%d]".formatted(destinationCwId),
-                    new Long[]{destinationCwId});
+                    new String[]{destinationCwId.toString()});
         }
     }
 
@@ -113,7 +114,10 @@ public class RefundValidator extends OperationValidator<ValidRefund, CreateRefun
                     "amount",
                     ValidationCode.REFUND_INCREASE_AMOUNT_LIMIT,
                     "Not enough money for refund. Available amount = [%s], expected amount = [%s]".formatted(availableAmount, amount),
-                    new BigDecimal[]{availableAmount, amount}
+                    new String[]{
+                            availableAmount.setScale(2, RoundingMode.CEILING).toPlainString(),
+                            amount.setScale(2, RoundingMode.CEILING).toPlainString()
+                    }
             );
         }
     }

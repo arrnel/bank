@@ -31,7 +31,7 @@ public class BankAccountValidator extends OperationValidator<ValidBankAccount, C
                     "userId",
                     ValidationCode.BANK_ACCOUNT_USER_ID_ALREADY_HAVE_BANK_ACCOUNT,
                     "User with id = [%d] already have bank account".formatted(userId),
-                    new Long[]{userId}
+                    new String[]{userId.toString()}
             );
     }
 }
