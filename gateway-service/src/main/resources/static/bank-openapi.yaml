@@ -1,0 +1,458 @@
+openapi: 3.0.0
+info:
+  title: Banking API
+  description: API for banking operations
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8090/api/v1
+
+tags:
+  - name: Currency
+    description: Operations with currency exchange rates
+  - name: Payment
+    description: Payment operations (accounts, transfers, deposits etc.)
+
+paths:
+  /currency/rate:
+    get:
+      tags:
+        - Currency
+      operationId: currency_rate
+      summary: Get currency exchange rate
+      description: |
+        Returns the exchange rate between two currencies
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Currency'
+          description: Source currency
+        - name: to
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Currency'
+          description: Target currency
+        - name: amount
+          in: query
+          required: false
+          schema:
+            type: number
+            format: decimal
+            minimum: 0.01
+            exclusiveMinimum: true
+          description: Optional amount to calculate converted value
+      responses:
+        '200':
+          description: Successfully get currency rate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyRateDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/bank_account:
+    post:
+      tags:
+        - Payment
+      operationId: create_bank_account
+      summary: Create bank account
+      description: |
+        Creating new user bank account. User should not have more than 1 bank account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBankAccountRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/currency_wallet:
+    post:
+      tags:
+        - Payment
+      operationId: create_currency_wallet
+      summary: Create currency wallet
+      description: |
+        Creating new currency wallet. User can have multiple currency wallets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCurrencyWalletRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/deposit:
+    post:
+      tags:
+        - Payment
+      operationId: add_deposit
+      summary: Add deposit to currency wallet
+      description: |
+        Add deposit to currency wallet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDepositRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/transfer:
+    post:
+      tags:
+        - Payment
+      operationId: add_deposit
+      summary: Transfer money from source to destination currency wallets
+      description: |
+        Transfer money from source to destination currency wallets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransferRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/refund:
+    post:
+      tags:
+        - Payment
+      operationId: add_refund
+      summary: Refund amount
+      description: |
+        Refund full or partial amount from destination to source currency wallet of transfer operation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRefundRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+  /payment/withdrawal:
+    post:
+      tags:
+        - Payment
+      operationId: add_refund
+      summary: Withdrawal amount
+      description: |
+        Refund full or partial amount from destination to source currency wallet of transfer operation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWithdrawalRequestDTO'
+      responses:
+        '200':
+          description: Successfully created bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOperationResponseDTO'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorDTO'
+
+components:
+  schemas:
+
+    CurrencyRateDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/Currency'
+        to:
+          $ref: '#/components/schemas/Currency'
+        rate:
+          type: integer
+          format: decimal
+
+    CreateBankAccountRequestDTO:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          description: User id
+          minimum: 1
+
+    CreateCurrencyWalletRequestDTO:
+      type: object
+      properties:
+        bank_account_id:
+          type: integer
+          format: int64
+          description: Bank account id
+          example: 1
+        currency:
+          type: string
+          description: Currency code ISO-4217
+          example: JPY
+      required:
+        - bank_account_id
+        - currency
+
+    CreateDepositRequestDTO:
+      type: object
+      properties:
+        currency_wallet_id:
+          type: integer
+          format: int64
+          description: Currency wallet id
+          example: 1
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          example: 10.00
+      required:
+        - currency_wallet_id
+        - amount
+
+    CreateTransferRequestDTO:
+      type: object
+      properties:
+        source_id:
+          type: integer
+          format: int64
+          description: Source currency wallet id
+          example: 1
+        destination_id:
+          type: integer
+          format: int64
+          description: Destination currency wallet id
+          example: 1
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          example: 10.00
+        comment:
+          type: string
+          minLength: 10
+          maxLength: 2000
+          example: Transfer comment example
+      required:
+        - source_id
+        - destination_id
+        - amount
+
+    CreateRefundRequestDTO:
+      type: object
+      properties:
+        transfer_id:
+          type: integer
+          format: int64
+          description: Transfer id
+          example: 1
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          example: 10.00
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 2000
+          example: Refund reason example
+      required:
+        - transfer_id
+        - amount
+
+    CreateWithdrawalRequestDTO:
+      type: object
+      properties:
+        currency_wallet_id:
+          type: integer
+          format: int64
+          description: Currency wallet id
+          example: 1
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          example: 10.00
+      required:
+        - currency_wallet_id
+        - amount
+
+    CreateOperationResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Currency wallet id
+          example: 1
+        status:
+          $ref: '#/components/schemas/OperationStatus'
+        createdAt:
+          type: string
+          format: localdatetime
+      required:
+        - currency_wallet_id
+        - amount
+
+    ApiErrorDTO:
+      type: object
+      properties:
+        api_version:
+          description: API version
+          type: string
+          example: "1.0"
+        error:
+          description:
+          $ref: '#/components/schemas/Error'
+
+    Error:
+      type: object
+      properties:
+        code:
+          description: Error code
+          type: string
+          example: "VALIDATION_ERROR"
+        message:
+          description: Error message
+          type: string
+          example: "Request validation failed"
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorItem'
+
+    ErrorItem:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Error domain
+          example: "/api/v1/payment/bank_account"
+        reason:
+          type: string
+          description: Error reason
+          example: "user"
+        itemMessage:
+          type: string
+          description: Detailed error message
+          example: "userId must not be null"
+
+    Currency:
+      type: string
+      enum: [ USD, EUR, GBP, RUB, CAD, KZT, JPY, CNY ]
+      description: Currency code (ISO-4217)
+      example: "USD"
+
+    OperationStatus:
+      type: string
+      enum: [ CREATED, PROCESSING, SUCCESS, FAILED ]
+      description: Operation status code
+      example: "SUCCESS"
