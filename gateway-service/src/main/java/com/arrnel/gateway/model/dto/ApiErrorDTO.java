@@ -68,7 +68,7 @@ public class ApiErrorDTO implements Serializable {
 
     public Map<String, Object> toAttributesMap() {
         return Map.of(
-                "apiVersion", apiVersion,
+                "api_version", apiVersion,
                 "error", error
         );
     }
