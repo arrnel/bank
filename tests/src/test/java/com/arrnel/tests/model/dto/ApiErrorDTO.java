@@ -10,7 +10,7 @@ import java.util.Objects;
 @Builder
 public record ApiErrorDTO(
 
-        @JsonProperty("apiVersion")
+        @JsonProperty("api_version")
         String apiVersion,
 
         @JsonProperty("error")

@@ -40,5 +40,4 @@ public record CreateTransferRequestDTO(
         String comment
 
 ) implements Serializable {
-
 }

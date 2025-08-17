@@ -29,6 +29,7 @@ subprojects {
         apacheCommonsVersion = '3.17.0'
         lombokVersion = '1.18.38'
         springKafkaVersion = '3.3.8'
+        springDocVersion = '2.8.9'
         springCloudVersion = '2025.0.0'
         postgresDriverVersion = '42.7.7'
         fakerVersion = '1.0.2'
