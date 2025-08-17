@@ -1,0 +1,70 @@
+server:
+  port: ${GATEWAY_SERVICE_PORT:8090}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /bank-openapi.yaml
+
+spring:
+  application:
+    name: gateway-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+  kafka:
+    admin:
+      properties:
+        offsets.topic.replication.factor: 1
+        transaction.state.log.replication.factor: 1
+        transaction.state.log.min.isr: 1
+    topics:
+      - name: "operation-topic"
+        partitions: 1
+        replication-factor: 1
+      - name: "operation-result-topic"
+        partitions: 1
+        replication-factor: 1
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
+    org.springframework.web: INFO
+    org.springframework.ws: INFO
+    org.springframework.boot.autoconfigure: INFO
+
+app:
+  api:
+    version: 0.0.1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+
+app:
+  integration:
+    internal:
+      currency:
+        url: 'http://localhost:${CURRENCY_SERVICE_PORT:8091}'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  kafka:
+    bootstrap-servers: 'kafka:9092'
+
+app:
+  integration:
+    internal:
+      currency:
+        url: 'http://currency.bank.dc:${CURRENCY_SERVICE_PORT:8091}'
+
+---

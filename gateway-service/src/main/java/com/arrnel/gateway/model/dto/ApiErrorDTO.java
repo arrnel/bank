@@ -1,5 +1,6 @@
-package com.arrnel.payment.model.dto;
+package com.arrnel.gateway.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class ApiErrorDTO implements Serializable {
     private final String apiVersion;
     private final Error error;
 
+    @JsonCreator
     public ApiErrorDTO(String apiVersion, Error error) {
         this.apiVersion = apiVersion;
         this.error = error;
@@ -54,12 +56,13 @@ public class ApiErrorDTO implements Serializable {
     }
 
     public static ApiErrorDTO fromAttributesMap(String apiVersion, Map<String, Object> attributesMap) {
+        var error = ((String) attributesMap.getOrDefault("error", "No message found"));
         return new ApiErrorDTO(
                 apiVersion,
                 ((Integer) attributesMap.get("status")).toString(),
-                ((String) attributesMap.getOrDefault("error", "No message found")),
+                error,
                 ((String) attributesMap.getOrDefault("path", "No path found")),
-                ((String) attributesMap.getOrDefault("error", "No message found"))
+                error
         );
     }
 
@@ -125,7 +128,6 @@ public class ApiErrorDTO implements Serializable {
         }
 
     }
-
 
     @Override
     public boolean equals(Object o) {
