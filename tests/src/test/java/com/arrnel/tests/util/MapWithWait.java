@@ -1,11 +1,17 @@
 package com.arrnel.tests.util;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@ParametersAreNonnullByDefault
 public class MapWithWait<K, V> {
 
     private final Map<K, SyncObject> store = new ConcurrentHashMap<>();
@@ -15,6 +21,17 @@ public class MapWithWait<K, V> {
                 .put(value);
     }
 
+    @Nullable
+    public Set<Map.Entry<K, MapWithWait<K,V>.SyncObject>> entrySet(){
+        return store.entrySet();
+    }
+
+    @Nonnull
+    public Collection<SyncObject> values(){
+        return store.values();
+    }
+
+    @Nullable
     public V get(K key, Duration maxWaitTime) throws InterruptedException {
         SyncObject syncObject = store.computeIfAbsent(key, SyncObject::new);
         return syncObject.latch.await(maxWaitTime.getSeconds(), TimeUnit.SECONDS)
@@ -26,7 +43,7 @@ public class MapWithWait<K, V> {
         store.remove(key);
     }
 
-    private final class SyncObject {
+    public final class SyncObject {
 
         private final CountDownLatch latch;
         private final K key;
@@ -43,7 +60,7 @@ public class MapWithWait<K, V> {
                 this.latch.countDown();
             }
         }
-
+        
     }
 
 }

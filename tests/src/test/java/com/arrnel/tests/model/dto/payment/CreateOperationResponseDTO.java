@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.dto;
+package com.arrnel.tests.model.dto.payment;
 
 import com.arrnel.tests.model.enums.OperationStatus;
 import com.fasterxml.jackson.annotation.JsonCreator;

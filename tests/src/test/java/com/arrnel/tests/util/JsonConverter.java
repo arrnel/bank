@@ -2,6 +2,7 @@ package com.arrnel.tests.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @RequiredArgsConstructor
 public class JsonConverter {
 
+    @Getter
     private final ObjectMapper objectMapper;
 
     @Nonnull

@@ -1,5 +1,6 @@
 package com.arrnel.tests.config;
 
+import feign.Logger.Level;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -13,6 +14,18 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
 public enum LocalConfig implements Config {
 
     INSTANCE;
+
+    @Nonnull
+    @Override
+    public Level defaultApiLogLevel(){
+        return Level.BASIC;
+    }
+
+    @Nonnull
+    @Override
+    public String gatewayApiUrl() {
+        return "http://localhost:%s/api/v1".formatted(gatewayPort());
+    }
 
     @Nonnull
     @Override

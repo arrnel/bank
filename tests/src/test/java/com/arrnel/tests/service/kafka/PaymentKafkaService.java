@@ -1,6 +1,7 @@
-package com.arrnel.tests.service;
+package com.arrnel.tests.service.kafka;
 
 import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.OperationType;
 import com.arrnel.tests.util.JsonConverter;
 import lombok.RequiredArgsConstructor;

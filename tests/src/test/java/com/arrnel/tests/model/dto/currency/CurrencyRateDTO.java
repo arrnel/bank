@@ -1,10 +1,12 @@
-package com.arrnel.tests.model.dto;
+package com.arrnel.tests.model.dto.currency;
 
+import com.arrnel.tests.model.enums.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
@@ -12,13 +14,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Builder
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CreateWithdrawalRequestDTO(
+public record CurrencyRateDTO(
 
-        @JsonProperty("currency_wallet_id")
-        Long currencyWalletId,
+        @JsonProperty("from")
+        Currency from,
 
-        @JsonProperty("amount")
-        BigDecimal amount
+        @JsonProperty("to")
+        Currency to,
 
-) {
+        @JsonProperty("rate")
+        BigDecimal rate
+
+) implements Serializable {
 }
+

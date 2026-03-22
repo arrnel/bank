@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.dto;
+package com.arrnel.tests.model.dto.payment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,19 +13,16 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Builder
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CreateTransferRequestDTO(
+public record CreateRefundRequestDTO(
 
-        @JsonProperty("source_id")
-        Long sourceId,
-
-        @JsonProperty("destination_id")
-        Long destinationId,
+        @JsonProperty("transfer_id")
+        Long transferId,
 
         @JsonProperty("amount")
         BigDecimal amount,
 
-        @JsonProperty("comment")
-        String comment
+        @JsonProperty("reason")
+        String reason
 
 ) implements Serializable {
 

@@ -1,15 +1,15 @@
 package com.arrnel.tests.config.di;
 
-import com.arrnel.tests.client.GatewayApiClient;
-import com.arrnel.tests.service.KafkaProducer;
-import com.arrnel.tests.service.KafkaStore;
-import com.arrnel.tests.service.PaymentKafkaService;
-import com.arrnel.tests.service.listener.KafkaOperationListener;
-import com.arrnel.tests.service.listener.KafkaOperationResultListener;
+import com.arrnel.tests.client.PaymentApiClient;
+import com.arrnel.tests.service.kafka.KafkaProducer;
+import com.arrnel.tests.service.kafka.KafkaStore;
+import com.arrnel.tests.service.kafka.PaymentKafkaService;
+import com.arrnel.tests.service.kafka.listener.KafkaOperationListener;
+import com.arrnel.tests.service.kafka.listener.KafkaOperationResultListener;
+import com.arrnel.tests.service.rest.PaymentApiService;
 import com.arrnel.tests.util.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -61,16 +61,22 @@ public enum LocalServiceConfig implements ServiceConfig {
         );
     }
 
-    @NotNull
-    @Override
-    public GatewayApiClient getGatewayApiClient() {
-        return new GatewayApiClient();
-    }
-
     @Nonnull
     @Override
     public PaymentKafkaService getPaymentKafkaService() {
         return new PaymentKafkaService(getKafkaProducer(), getKafkaStore(), getJsonConverter());
     }
-    
+
+    @Nonnull
+    @Override
+    public PaymentApiClient getPaymentApiClient() {
+        return new PaymentApiClient(getObjectMapper());
+    }
+
+    @Nonnull
+    @Override
+    public PaymentApiService getPaymentApiService() {
+        return new PaymentApiService(getPaymentApiClient());
+    }
+
 }

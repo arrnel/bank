@@ -34,6 +34,15 @@ allure {
     }
 }
 
+sourceSets {
+    test {
+        java {
+            srcDir('src/test/java')
+        }
+    }
+}
+
+
 dependencies {
 
     // Allure

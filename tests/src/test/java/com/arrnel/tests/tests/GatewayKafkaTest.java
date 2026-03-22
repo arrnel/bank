@@ -1,6 +1,7 @@
 package com.arrnel.tests.tests;
 
-import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
+import com.arrnel.tests.service.kafka.KafkaStore;
 import com.arrnel.tests.util.DataGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,23 +12,23 @@ import static com.arrnel.tests.model.enums.OperationStatus.SUCCESS;
 import static com.arrnel.tests.util.DataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Payment service kafka tests")
-class PaymentKafkaServiceTest extends BaseTest {
+@DisplayName("Gateway service kafka tests")
+class GatewayKafkaTest extends BaseTest {
 
     @Test
     @DisplayName("Should create bank account and return success response if user_id not exists")
-    void shouldCreateBankAccountAndReturnSuccessResponseIfUserIdNotExistsTest() {
+    void shouldProduceBankAccountAndReturnSuccessResponseIfUserIdNotExistsTest() {
         // Data
         var request = generateCreateBankAccountRequest();
 
         // Steps
-        var result = paymentKafkaService.sendCreateBankAccountRequest(request);
-
-        assertAll("Check payment service produce success operation response message",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+        var responseResult = paymentApiService.addNewBankAccount(request);
+        
+        assertAll("Check gateway service produce create bank account record and return success response",
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
 
     }
@@ -40,22 +41,23 @@ class PaymentKafkaServiceTest extends BaseTest {
 
         // Steps
         paymentKafkaService.sendCreateBankAccountRequest(request);
-        var result = paymentKafkaService.sendCreateBankAccountRequestWithError(request);
+        var responseResult = paymentKafkaService.sendCreateBankAccountRequestWithError(request);
+        var kafkaRecord = KafkaStore.INSTANCE.containsBankAccountRequest(request.userId());
 
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "userId",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has SUCCESS status"
                 ),
                 () -> assertEquals(
                         "[ValidBankAccount] User with ID [%d] already has a bank account".formatted(request.userId()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -67,15 +69,15 @@ class PaymentKafkaServiceTest extends BaseTest {
 
         // Steps
         var bankAccountResponse = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
-        var result = paymentKafkaService.sendCreateCurrencyWalletRequest(
+        var responseResult = paymentKafkaService.sendCreateCurrencyWalletRequest(
                 generateCurrencyWalletRequest(bankAccountResponse.id())
         );
 
         assertAll("Check payment service produce success operation response message",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -86,22 +88,22 @@ class PaymentKafkaServiceTest extends BaseTest {
         var request = generateCurrencyWalletRequest();
 
         // Steps
-        var result = paymentKafkaService.sendCreateCurrencyWalletRequestWithError(request);
+        var responseResult = paymentKafkaService.sendCreateCurrencyWalletRequestWithError(request);
 
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "bankAccountId",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidCurrencyWallet] Bank account with ID [%d] not found".formatted(request.bankAccountId()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -115,15 +117,15 @@ class PaymentKafkaServiceTest extends BaseTest {
         var currencyWalletResponse = paymentKafkaService.sendCreateCurrencyWalletRequest(
                 generateCurrencyWalletRequest(bankAccountResponse.id())
         );
-        var result = paymentKafkaService.sendDepositRequest(
+        var responseResult = paymentKafkaService.sendDepositRequest(
                 generateDepositRequest(currencyWalletResponse.id())
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -134,22 +136,22 @@ class PaymentKafkaServiceTest extends BaseTest {
         var depositRequest = generateDepositRequest();
 
         // Steps
-        var result = paymentKafkaService.sendDepositRequestWithError(depositRequest);
+        var responseResult = paymentKafkaService.sendDepositRequestWithError(depositRequest);
 
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "currencyWalletId",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidDeposit] Currency wallet with ID [%d] not found".formatted(depositRequest.currencyWalletId()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -181,7 +183,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendTransferRequest(
+        var responseResult = paymentKafkaService.sendTransferRequest(
                 new CreateTransferRequestDTO(
                         sourceCwId,
                         destinationCwId,
@@ -190,10 +192,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -224,7 +226,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendTransferRequest(
+        var responseResult = paymentKafkaService.sendTransferRequest(
                 new CreateTransferRequestDTO(
                         sourceCwId,
                         destinationCwId,
@@ -233,10 +235,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -257,7 +259,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendTransferRequestWithError(
+        var responseResult = paymentKafkaService.sendTransferRequestWithError(
                 new CreateTransferRequestDTO(
                         sourceCwId,
                         destinationCwId,
@@ -268,17 +270,17 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "from",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidTransfer] Source currency wallet with ID [%d] not found".formatted(sourceCwId),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -302,7 +304,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                 .id();
         paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, amount));
 
-        var result = paymentKafkaService.sendTransferRequestWithError(
+        var responseResult = paymentKafkaService.sendTransferRequestWithError(
                 new CreateTransferRequestDTO(
                         sourceCwId,
                         destinationCwId,
@@ -313,17 +315,17 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "to",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidTransfer] Destination currency wallet with ID [%d] not found".formatted(destinationCwId),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -356,7 +358,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendTransferRequestWithError(
+        var responseResult = paymentKafkaService.sendTransferRequestWithError(
                 new CreateTransferRequestDTO(
                         sourceCwId,
                         destinationCwId,
@@ -367,18 +369,18 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "amount",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidTransfer] Insufficient funds in source wallet: current balance [%s], required [%s]"
                                 .formatted(depositAmount.toPlainString(), transferAmount.toPlainString()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -420,7 +422,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendRefundRequest(
+        var responseResult = paymentKafkaService.sendRefundRequest(
                 new CreateRefundRequestDTO(
                         transferId,
                         refundAmount,
@@ -428,10 +430,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -479,7 +481,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         randomText())
         );
 
-        var result = paymentKafkaService.sendRefundRequest(
+        var responseResult = paymentKafkaService.sendRefundRequest(
                 new CreateRefundRequestDTO(
                         transferId,
                         refundAmount2,
@@ -487,10 +489,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
     }
 
@@ -530,7 +532,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         ))
                 .id();
 
-        var result = paymentKafkaService.sendRefundRequestWithError(
+        var responseResult = paymentKafkaService.sendRefundRequestWithError(
                 new CreateRefundRequestDTO(
                         transferId,
                         refundAmount,
@@ -540,18 +542,18 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "amount",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidRefund] Requested refund amount [%s] exceeds available refund limit [%s]"
                                 .formatted(refundAmount.toPlainString(), depositAmount.toPlainString()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -602,7 +604,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                         randomText())
         );
 
-        var result = paymentKafkaService.sendRefundRequestWithError(
+        var responseResult = paymentKafkaService.sendRefundRequestWithError(
                 new CreateRefundRequestDTO(
                         transferId,
                         refundAmount2,
@@ -612,18 +614,18 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "amount",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidRefund] Requested refund amount [%s] exceeds available refund limit [%s]"
                                 .formatted(refundAmount2.toPlainString(), availableAmount.toPlainString()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -647,7 +649,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                 .id();
         paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(cwId, depositAmount));
 
-        var result = paymentKafkaService.sendWithdrawalRequest(
+        var responseResult = paymentKafkaService.sendWithdrawalRequest(
                 new CreateWithdrawalRequestDTO(
                         cwId,
                         withdrawalAmount
@@ -655,10 +657,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
-                () -> assertNotNull(result.id(), "Check response id not null"),
-                () -> assertEquals(SUCCESS, result.status(), "Check response has SUCCESS status"),
-                () -> assertNull(result.errorMessage(), "Check error message is null"),
-                () -> assertNotNull(result.createdAt(), "Check created date not null")
+                () -> assertNotNull(responseResult.id(), "Check response id not null"),
+                () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
+                () -> assertNull(responseResult.errorMessage(), "Check error message is null"),
+                () -> assertNotNull(responseResult.createdAt(), "Check created date not null")
         );
 
     }
@@ -681,7 +683,7 @@ class PaymentKafkaServiceTest extends BaseTest {
                 .id();
         paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(cwId, depositAmount));
 
-        var result = paymentKafkaService.sendWithdrawalRequestWithError(
+        var responseResult = paymentKafkaService.sendWithdrawalRequestWithError(
                 new CreateWithdrawalRequestDTO(
                         cwId,
                         withdrawalAmount
@@ -691,18 +693,18 @@ class PaymentKafkaServiceTest extends BaseTest {
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "amount",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidWithdrawal] Insufficient funds in wallet: current balance [%s], requested [%s]"
                                 .formatted(depositAmount.toPlainString(), withdrawalAmount.toPlainString()),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );
@@ -716,22 +718,22 @@ class PaymentKafkaServiceTest extends BaseTest {
         var amount = DataGenerator.randomBigDecimal();
 
         // Steps
-        var result = paymentKafkaService.sendWithdrawalRequestWithError(new CreateWithdrawalRequestDTO(cwId, amount));
+        var responseResult = paymentKafkaService.sendWithdrawalRequestWithError(new CreateWithdrawalRequestDTO(cwId, amount));
 
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
                         "Illegal operation",
-                        result.error().message(),
+                        responseResult.error().message(),
                         "Check response has expected errors message"
                 ),
                 () -> assertEquals(
                         "from",
-                        result.error().errors().getFirst().reason(),
+                        responseResult.error().errors().getFirst().reason(),
                         "Check response has expected reason"
                 ),
                 () -> assertEquals(
                         "[ValidWithdrawal] Currency wallet with ID [%d] not found".formatted(cwId),
-                        result.error().errors().getFirst().itemMessage(),
+                        responseResult.error().errors().getFirst().itemMessage(),
                         "Check response has expected error itemMessage"
                 )
         );

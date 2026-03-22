@@ -1,6 +1,6 @@
 package com.arrnel.tests.util;
 
-import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.Currency;
 import net.datafaker.Faker;
 
