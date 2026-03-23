@@ -44,7 +44,8 @@ dependencies {
 
     // API
     testImplementation "io.github.openfeign:feign-core:${feignVersion}"
-    testImplementation "io.github.openfeign:feign-okhttp:${feignVersion}"
+    testImplementation "io.github.openfeign:feign-jackson:${feignVersion}"
+    testImplementation "io.github.openfeign:feign-slf4j:${feignVersion}"
 
     // JUnit
     testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
@@ -65,6 +66,7 @@ dependencies {
     testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
     testImplementation "com.github.spotbugs:spotbugs-annotations:${spotbugsAnnotationsVersion}"
+    testImplementation "org.jsoup:jsoup:1.21.1"
 
 }
 
@@ -74,6 +76,23 @@ tasks.register('printVersion') {
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+test {
+    options {
+        systemProperties(System.getProperties())
+    }
+    environment(System.getenv())
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    useJUnitPlatform {
+
+        var includedTags = System.getenv('TAG_EXPR')
+        if (includedTags != null && !includedTags.trim().isEmpty()) {
+
+            includeTags Arrays.stream(includedTags.toLowerCase().split(","))
+                    .map { v -> v.trim() }
+                    .toArray(String[]::new)
+
+        }
+    }
+
 }
