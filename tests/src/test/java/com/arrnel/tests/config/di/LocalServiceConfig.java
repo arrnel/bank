@@ -9,7 +9,6 @@ import com.arrnel.tests.service.listener.KafkaOperationResultListener;
 import com.arrnel.tests.util.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -61,7 +60,7 @@ public enum LocalServiceConfig implements ServiceConfig {
         );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public GatewayApiClient getGatewayApiClient() {
         return new GatewayApiClient();
