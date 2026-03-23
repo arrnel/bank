@@ -84,7 +84,7 @@ spring:
     activate:
       on-profile: 'docker'
   datasource:
-    url: 'jdbc:postgresql://postgres:${DB_PORT:5432}/payment-service'
+    url: 'jdbc:postgresql://bank-db:${DB_PORT:5432}/payment-service'
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:secret}
   data:
