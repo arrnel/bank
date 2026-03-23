@@ -15,17 +15,24 @@ public class ApiErrorDTO implements Serializable {
     private final String apiVersion;
     private final Error error;
 
-    public ApiErrorDTO(String apiVersion, Error error) {
+    public ApiErrorDTO(
+            @JsonProperty("api_version")
+            String apiVersion,
+            Error error
+    ) {
         this.apiVersion = apiVersion;
         this.error = error;
     }
 
     @Builder
-    public ApiErrorDTO(String apiVersion,
-                       String code,
-                       String message,
-                       String domain,
-                       String reason) {
+    public ApiErrorDTO(
+            @JsonProperty("api_version")
+            String apiVersion,
+            String code,
+            String message,
+            String domain,
+            String reason
+    ) {
         this.apiVersion = apiVersion;
         this.error = new Error(
                 code,
@@ -41,10 +48,13 @@ public class ApiErrorDTO implements Serializable {
     }
 
     @Builder(builderMethodName = "builderErrors", buildMethodName = "buildErrors")
-    public ApiErrorDTO(String apiVersion,
-                       String code,
-                       String message,
-                       List<ErrorItem> errorItems) {
+    public ApiErrorDTO(
+            @JsonProperty("api_version")
+            String apiVersion,
+            String code,
+            String message,
+            List<ErrorItem> errorItems
+    ) {
         this.apiVersion = apiVersion;
         this.error = new Error(
                 code,
@@ -54,12 +64,15 @@ public class ApiErrorDTO implements Serializable {
     }
 
     public static ApiErrorDTO fromAttributesMap(String apiVersion, Map<String, Object> attributesMap) {
+        var status = ((Integer) attributesMap.get("status")).toString();
+        var error = (String) attributesMap.getOrDefault("error", "No message found");
+        var path = (String) attributesMap.getOrDefault("path", "No path found");
         return new ApiErrorDTO(
                 apiVersion,
-                ((Integer) attributesMap.get("status")).toString(),
-                ((String) attributesMap.getOrDefault("error", "No message found")),
-                ((String) attributesMap.getOrDefault("path", "No path found")),
-                ((String) attributesMap.getOrDefault("error", "No message found"))
+                status,
+                error,
+                path,
+                error
         );
     }
 
