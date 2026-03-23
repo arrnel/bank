@@ -1,9 +1,11 @@
 package com.arrnel.tests.tests;
 
 import com.arrnel.tests.model.dto.payment.*;
+import com.arrnel.tests.model.enums.AllureTag;
 import com.arrnel.tests.service.kafka.KafkaStore;
 import com.arrnel.tests.util.DataGenerator;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -12,9 +14,11 @@ import static com.arrnel.tests.model.enums.OperationStatus.SUCCESS;
 import static com.arrnel.tests.util.DataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag(AllureTag.GATEWAY_SERVICE_TEST)
 @DisplayName("Gateway service kafka tests")
 class GatewayKafkaTest extends BaseTest {
 
+    @Tag(AllureTag.BANK_ACCOUNT_TEST)
     @Test
     @DisplayName("Should create bank account and return success response if user_id not exists")
     void shouldProduceBankAccountAndReturnSuccessResponseIfUserIdNotExistsTest() {
@@ -23,7 +27,7 @@ class GatewayKafkaTest extends BaseTest {
 
         // Steps
         var responseResult = paymentApiService.addNewBankAccount(request);
-        
+
         assertAll("Check gateway service produce create bank account record and return success response",
                 () -> assertNotNull(responseResult.id(), "Check response id not null"),
                 () -> assertEquals(SUCCESS, responseResult.status(), "Check response has SUCCESS status"),
@@ -33,6 +37,7 @@ class GatewayKafkaTest extends BaseTest {
 
     }
 
+    @Tag(AllureTag.BANK_ACCOUNT_TEST)
     @Test
     @DisplayName("Should not create bank account and return error if user_id is already taken")
     void shouldNotCreateBankAccountAndReturnErrorIfUserIdIsAlreadyTakenTest() {
@@ -63,6 +68,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.CURRENCY_WALLET_TEST)
     @Test
     @DisplayName("Should create currency wallet and return SUCCESS response")
     void shouldCreateCurrencyWalletAndReturnSuccessResponseTest() {
@@ -81,6 +87,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.CURRENCY_WALLET_TEST)
     @Test
     @DisplayName("Should not create currency wallet and return error if bank_account_id not exists")
     void shouldNotCreateCurrencyWalletAndReturnErrorIfBankAccountIdNotExistsTest() {
@@ -109,6 +116,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.DEPOSIT_TEST)
     @Test
     @DisplayName("Should add deposit and return SUCCESS response")
     void shouldAddDepositAndReturnSuccessResponseTest() {
@@ -129,6 +137,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.DEPOSIT_TEST)
     @Test
     @DisplayName("Should not add deposit and return error if currency_wallet_id not exists")
     void shouldNotAddDepositAndReturnErrorIfCurrencyWalletNotExistsTest() {
@@ -157,6 +166,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.TRANSFER_TEST)
     @Test
     @DisplayName("Should transfer and return SUCCESS response if currencies the same")
     void shouldTransferAndReturnSuccessResponseIfCurrenciesTheSameTest() {
@@ -199,6 +209,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.TRANSFER_TEST)
     @Test
     @DisplayName("Should transfer and return SUCCESS response if currencies are different")
     void shouldTransferAndReturnSuccessResponseIfCurrenciesAreDifferentTest() {
@@ -242,6 +253,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.TRANSFER_TEST)
     @Test
     @DisplayName("Should not transfer and return error if source currency wallet not exists")
     void shouldNotTransferAndReturnErrorIfSourceCurrencyWalletNotExistsTest() {
@@ -286,6 +298,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.TRANSFER_TEST)
     @Test
     @DisplayName("Should not transfer and return error if destination currency wallet not exists")
     void shouldNotTransferAndReturnErrorIfDestinationCurrencyWalletNotExistsTest() {
@@ -331,6 +344,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.TRANSFER_TEST)
     @Test
     @DisplayName("Should not transfer and return error if source currency wallet not have enough money")
     void shouldNotTransferAndReturnErrorIfSourceCurrencyWalletNotHaveEnoughMoneyExistsTest() {
@@ -386,6 +400,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.REFUND_TEST)
     @Test
     @DisplayName("Should refund and return SUCCESS response")
     void shouldRefundAndReturnSuccessResponseTest() {
@@ -437,6 +452,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.REFUND_TEST)
     @Test
     @DisplayName("Should refund multiple times and return SUCCESS response")
     void shouldRefundMultipleTimesAndReturnSuccessResponseTest() {
@@ -496,6 +512,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.REFUND_TEST)
     @Test
     @DisplayName("Should not refund and return error if not enough money for refund")
     void shouldNotRefundAndReturnErrorIfNotEnoughMoneyForRefundTest() {
@@ -559,6 +576,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.REFUND_TEST)
     @Test
     @DisplayName("Should not refund multiple times and return error if not enough money for refund")
     void shouldNotRefundMultipleTimesAndReturnErrorIfNotEnoughMoneyForRefundTest() {
@@ -631,6 +649,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.WITHDRAWAL_TEST)
     @Test
     @DisplayName("Should withdrawal and return SUCCESS response if currencies the same")
     void shouldWithdrawalAndReturnSuccessResponseIfCurrenciesTheSameTest() {
@@ -665,6 +684,7 @@ class GatewayKafkaTest extends BaseTest {
 
     }
 
+    @Tag(AllureTag.WITHDRAWAL_TEST)
     @Test
     @DisplayName("Should not withdrawal and return error if not enough money")
     void shouldNotWithdrawalAndReturnErrorIfNotEnoughMoneyTest() {
@@ -710,6 +730,7 @@ class GatewayKafkaTest extends BaseTest {
         );
     }
 
+    @Tag(AllureTag.WITHDRAWAL_TEST)
     @Test
     @DisplayName("Should not withdrawal and return error if currency wallet not found")
     void shouldNotWithdrawalAndReturnErrorIfCurrencyWalletNotExistsTest() {
