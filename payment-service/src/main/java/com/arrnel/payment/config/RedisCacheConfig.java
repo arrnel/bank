@@ -1,5 +1,6 @@
 package com.arrnel.payment.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -11,17 +12,18 @@ import java.time.Duration;
 @Configuration
 public class RedisCacheConfig {
 
+    @Value("${app.redis.cache-ttl}")
+    private Long cacheTtl;
+
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60))
+                .entryTtl(Duration.ofSeconds(cacheTtl))
                 .disableCachingNullValues();
-
-        RedisCacheConfiguration currencyConfig = defaultConfig;
 
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(defaultConfig)
-                .withCacheConfiguration("currency_rates", currencyConfig)
+                .withCacheConfiguration("currency_rates", defaultConfig)
                 .transactionAware()
                 .build();
     }

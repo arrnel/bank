@@ -77,6 +77,8 @@ app:
     internal:
       currency:
         url: 'http://localhost:8091'
+  redis:
+    cache-ttl: 60
 
 ---
 spring:
@@ -101,5 +103,7 @@ app:
     internal:
       currency:
         url: 'http://currency.bank.dc:${CURRENCY_PORT:8091}'
+  redis:
+    cache-ttl: 60
 
 ---
