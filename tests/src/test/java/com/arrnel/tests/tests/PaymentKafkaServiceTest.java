@@ -166,27 +166,27 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                currency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(currency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest()
+                        .currencyWalletId(sourceCwId)
+                        .amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                currency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(currency)
+                )
                 .id();
 
         var result = paymentKafkaService.sendTransferRequest(
-                new CreateTransferRequestDTO(
-                        sourceCwId,
-                        destinationCwId,
-                        transferAmount,
-                        randomText())
+                DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(transferAmount)
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
@@ -209,27 +209,23 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency))
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency))
                 .id();
 
         var result = paymentKafkaService.sendTransferRequest(
-                new CreateTransferRequestDTO(
-                        sourceCwId,
-                        destinationCwId,
-                        transferAmount,
-                        randomText())
+                DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(transferAmount)
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
@@ -251,18 +247,12 @@ class PaymentKafkaServiceTest extends BaseTest {
         var destinationBankAccountId = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest())
                 .id();
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccountId,
-                                DataGenerator.randomCurrency()
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccountId))
                 .id();
 
         var result = paymentKafkaService.sendTransferRequestWithError(
-                new CreateTransferRequestDTO(
-                        sourceCwId,
-                        destinationCwId,
-                        amount,
-                        randomText())
+                DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(amount)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -295,19 +285,16 @@ class PaymentKafkaServiceTest extends BaseTest {
         var sourceBandAccountId = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest())
                 .id();
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBandAccountId,
-                                DataGenerator.randomCurrency()
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBandAccountId)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, amount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(amount)
+        );
 
         var result = paymentKafkaService.sendTransferRequestWithError(
-                new CreateTransferRequestDTO(
-                        sourceCwId,
-                        destinationCwId,
-                        amount,
-                        randomText())
+                DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(amount)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -341,27 +328,26 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency)
+                )
                 .id();
 
         var result = paymentKafkaService.sendTransferRequestWithError(
-                new CreateTransferRequestDTO(
-                        sourceCwId,
-                        destinationCwId,
-                        transferAmount,
-                        randomText())
+                DataGenerator.generateTransferRequest(sourceCwId, destinationCwId)
+                        .amount(transferAmount)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -396,35 +382,32 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency)
+                )
                 .id();
 
         var transferId = paymentKafkaService.sendTransferRequest(
-                        new CreateTransferRequestDTO(
-                                sourceCwId,
-                                destinationCwId,
-                                depositAmount,
-                                randomText()
-                        ))
+                        DataGenerator.generateTransferRequest(sourceCwId, destinationCwId)
+                                .amount(depositAmount)
+                )
                 .id();
 
         var result = paymentKafkaService.sendRefundRequest(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId)
+                        .amount(refundAmount)
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
@@ -448,42 +431,35 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId)
+                        .amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency)
+                )
                 .id();
 
         var transferId = paymentKafkaService.sendTransferRequest(
-                        new CreateTransferRequestDTO(
-                                sourceCwId,
-                                destinationCwId,
-                                depositAmount,
-                                randomText()
-                        ))
+                        DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(depositAmount)
+                )
                 .id();
 
         paymentKafkaService.sendRefundRequest(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount1,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId).amount(refundAmount1)
         );
 
         var result = paymentKafkaService.sendRefundRequest(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount2,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId).amount(refundAmount2)
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
@@ -506,35 +482,30 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency)
+                )
                 .id();
 
         var transferId = paymentKafkaService.sendTransferRequest(
-                        new CreateTransferRequestDTO(
-                                sourceCwId,
-                                destinationCwId,
-                                depositAmount,
-                                randomText()
-                        ))
+                        DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(depositAmount)
+                )
                 .id();
 
         var result = paymentKafkaService.sendRefundRequestWithError(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId).amount(refundAmount)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -571,42 +542,36 @@ class PaymentKafkaServiceTest extends BaseTest {
         // Steps
         var sourceBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var sourceCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                sourceBankAccount.id(),
-                                sourceCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(sourceBankAccount.id())
+                                .currency(sourceCurrency)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(sourceCwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(sourceCwId).amount(depositAmount)
+        );
 
         var destinationBankAccount = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest());
         var destinationCwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                destinationBankAccount.id(),
-                                destinationCurrency
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest()
+                                .bankAccountId(destinationBankAccount.id())
+                                .currency(destinationCurrency)
+                )
                 .id();
 
         var transferId = paymentKafkaService.sendTransferRequest(
-                        new CreateTransferRequestDTO(
-                                sourceCwId,
-                                destinationCwId,
-                                depositAmount,
-                                randomText()
-                        ))
+                        DataGenerator.generateTransferRequest(sourceCwId, destinationCwId).amount(depositAmount)
+                )
                 .id();
 
         paymentKafkaService.sendRefundRequest(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount1,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId)
+                        .amount(refundAmount1)
         );
 
         var result = paymentKafkaService.sendRefundRequestWithError(
-                new CreateRefundRequestDTO(
-                        transferId,
-                        refundAmount2,
-                        randomText())
+                DataGenerator.generateRefundRequest(transferId)
+                        .amount(refundAmount2)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -640,18 +605,15 @@ class PaymentKafkaServiceTest extends BaseTest {
         var bankAccountId = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest())
                 .id();
         var cwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                bankAccountId,
-                                DataGenerator.randomCurrency()
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest(bankAccountId)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(cwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(cwId).amount(depositAmount)
+        );
 
         var result = paymentKafkaService.sendWithdrawalRequest(
-                new CreateWithdrawalRequestDTO(
-                        cwId,
-                        withdrawalAmount
-                )
+                DataGenerator.generateWithdrawalRequest(cwId).amount(withdrawalAmount)
         );
 
         assertAll("Check payment service produce success operation response message if send create deposit request",
@@ -674,18 +636,16 @@ class PaymentKafkaServiceTest extends BaseTest {
         var bankAccountId = paymentKafkaService.sendCreateBankAccountRequest(generateCreateBankAccountRequest())
                 .id();
         var cwId = paymentKafkaService.sendCreateCurrencyWalletRequest(
-                        new CreateCurrencyWalletRequestDTO(
-                                bankAccountId,
-                                DataGenerator.randomCurrency()
-                        ))
+                        DataGenerator.generateCurrencyWalletRequest(bankAccountId)
+                )
                 .id();
-        paymentKafkaService.sendDepositRequest(new CreateDepositRequestDTO(cwId, depositAmount));
+        paymentKafkaService.sendDepositRequest(
+                DataGenerator.generateDepositRequest(cwId)
+                        .amount(depositAmount)
+        );
 
         var result = paymentKafkaService.sendWithdrawalRequestWithError(
-                new CreateWithdrawalRequestDTO(
-                        cwId,
-                        withdrawalAmount
-                )
+                DataGenerator.generateWithdrawalRequest(cwId).amount(withdrawalAmount)
         );
 
         assertAll("Check payment service produce error operation response message",
@@ -716,7 +676,10 @@ class PaymentKafkaServiceTest extends BaseTest {
         var amount = DataGenerator.randomBigDecimal();
 
         // Steps
-        var result = paymentKafkaService.sendWithdrawalRequestWithError(new CreateWithdrawalRequestDTO(cwId, amount));
+        var result = paymentKafkaService.sendWithdrawalRequestWithError(
+                DataGenerator.generateWithdrawalRequest(cwId)
+                        .amount(amount)
+        );
 
         assertAll("Check payment service produce error operation response message",
                 () -> assertEquals(
