@@ -1,7 +1,7 @@
 package com.arrnel.tests.jupiter.extension;
 
 import com.arrnel.tests.config.di.ServiceConfig;
-import com.arrnel.tests.service.listener.KafkaListener;
+import com.arrnel.tests.service.kafka.listener.KafkaListener;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.extension.ExtensionContext;
 

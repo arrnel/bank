@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.dto;
+package com.arrnel.tests.model.dto.payment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,7 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Builder
 @JsonInclude(NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CreateDepositRequestDTO(
+public record CreateWithdrawalRequestDTO(
 
         @JsonProperty("operation_number")
         Long operationNumber,
@@ -25,16 +25,16 @@ public record CreateDepositRequestDTO(
 
 ) {
 
-    public CreateDepositRequestDTO operationNumber(Long operationNumber) {
-        return new CreateDepositRequestDTO(operationNumber, this.currencyWalletId, this.amount);
+    public CreateWithdrawalRequestDTO operationNumber(Long operationNumber) {
+        return new CreateWithdrawalRequestDTO(operationNumber, this.currencyWalletId, this.amount);
     }
 
-    public CreateDepositRequestDTO currencyWalletId(Long currencyWalletId) {
-        return new CreateDepositRequestDTO(this.operationNumber, currencyWalletId, this.amount);
+    public CreateWithdrawalRequestDTO currencyWalletId(Long currencyWalletId) {
+        return new CreateWithdrawalRequestDTO(this.operationNumber, currencyWalletId, this.amount);
     }
 
-    public CreateDepositRequestDTO amount(BigDecimal amount) {
-        return new CreateDepositRequestDTO(this.operationNumber, this.currencyWalletId, amount);
+    public CreateWithdrawalRequestDTO amount(BigDecimal amount) {
+        return new CreateWithdrawalRequestDTO(this.operationNumber, this.currencyWalletId, amount);
     }
 
 }

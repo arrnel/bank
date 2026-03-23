@@ -1,11 +1,12 @@
 package com.arrnel.tests.config.di;
 
-import com.arrnel.tests.client.GatewayApiClient;
+import com.arrnel.tests.client.PaymentApiClient;
 import com.arrnel.tests.config.Config;
-import com.arrnel.tests.service.KafkaProducer;
-import com.arrnel.tests.service.KafkaStore;
-import com.arrnel.tests.service.PaymentKafkaService;
-import com.arrnel.tests.service.listener.KafkaListener;
+import com.arrnel.tests.service.kafka.KafkaProducer;
+import com.arrnel.tests.service.kafka.KafkaStore;
+import com.arrnel.tests.service.kafka.PaymentKafkaService;
+import com.arrnel.tests.service.kafka.listener.KafkaListener;
+import com.arrnel.tests.service.rest.PaymentApiService;
 import com.arrnel.tests.util.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,9 +43,12 @@ public interface ServiceConfig {
     KafkaListener getKafkaOperationResultListener();
 
     @Nonnull
-    GatewayApiClient getGatewayApiClient();
+    PaymentKafkaService getPaymentKafkaService();
 
     @Nonnull
-    PaymentKafkaService getPaymentKafkaService();
+    PaymentApiClient getPaymentApiClient();
+
+    @Nonnull
+    PaymentApiService getPaymentApiService();
 
 }

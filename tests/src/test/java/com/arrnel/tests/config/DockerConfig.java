@@ -15,6 +15,12 @@ public enum DockerConfig implements Config {
 
     @Nonnull
     @Override
+    public String gatewayApiUrl() {
+        return "http://gateway.bank.rc:%s/api/v1".formatted(gatewayPort());
+    }
+
+    @Nonnull
+    @Override
     public String kafkaAddress() {
         return "kafka:9092";
     }

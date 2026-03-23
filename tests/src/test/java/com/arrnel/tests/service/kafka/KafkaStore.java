@@ -1,8 +1,8 @@
-package com.arrnel.tests.service;
+package com.arrnel.tests.service.kafka;
 
 
 import com.arrnel.tests.config.Config;
-import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.util.MapWithWait;
 
 import javax.annotation.Nullable;
@@ -30,6 +30,13 @@ public enum KafkaStore {
     @Nullable
     public CreateBankAccountRequestDTO getBankAccountRequest(String requestId) throws InterruptedException {
         return bankAccountStore.get(requestId, CFG.kafkaMaxTimeoutWaitingResult());
+    }
+
+    public boolean containsBankAccountRequest(Long userId) {
+//        bankAccountStore.values().stream().filter(
+//                value -> value.
+//        )
+        return false;
     }
 
     public void saveCurrencyWalletRequest(String requestId, CreateCurrencyWalletRequestDTO request) {

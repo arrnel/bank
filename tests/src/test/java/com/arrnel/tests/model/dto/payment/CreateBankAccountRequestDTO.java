@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.dto;
+package com.arrnel.tests.model.dto.payment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

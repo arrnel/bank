@@ -1,5 +1,6 @@
 package com.arrnel.tests.config;
 
+import feign.Logger.Level;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -17,6 +18,22 @@ public interface Config {
             default -> throw new IllegalStateException("Unknown test environment: %s".formatted(testEnv));
         };
     }
+
+    @Nonnull
+    default Level defaultApiLogLevel(){
+        return Level.FULL;
+    }
+
+    @Nonnull
+    default String gatewayPort(){
+        var gatewayPort = System.getenv("GATEWAY_PORT");
+        return (gatewayPort == null || gatewayPort.trim().isEmpty())
+                ? "8090"
+                : gatewayPort;
+    }
+
+    @Nonnull
+    String gatewayApiUrl();
 
     @Nonnull
     String kafkaAddress();

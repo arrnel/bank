@@ -1,8 +1,10 @@
-package com.arrnel.tests.service;
+package com.arrnel.tests.service.kafka;
 
 import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.OperationType;
 import com.arrnel.tests.util.JsonConverter;
+import io.qameta.allure.Allure;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,24 +92,27 @@ public class PaymentKafkaService {
         var headers = Map.of(OPERATION_TYPE.toString(), operationType.toString());
         var message = jsonConverter.convertToJson(request);
 
-        log.info("Send [{}] request with id = [{}] and body: {}", operationType, requestId, message);
-        kafkaProducer.sendMessage(
-                OPERATION_TOPIC,
-                requestId,
-                headers,
-                message
-        );
+        var stepLog = "Send [%s] request with id = [%s]".formatted(operationType, requestId);
+        log.info("{} and body: {}", stepLog, message);
+        return Allure.step(stepLog, () -> {
+            kafkaProducer.sendMessage(
+                    OPERATION_TOPIC,
+                    requestId,
+                    headers,
+                    message
+            );
 
-        try {
-            return Optional.ofNullable(
-                            kafkaStore.getOperationResponse(requestId))
-                    .orElseThrow(() ->
-                            new RuntimeException("No operation response found for requestId: " + requestId)
-                    );
-        } catch (Exception ex) {
-            log.error("Unable to get operation result", ex);
-            throw new RuntimeException(ex);
-        }
+            try {
+                return Optional.ofNullable(
+                                kafkaStore.getOperationResponse(requestId))
+                        .orElseThrow(() ->
+                                new RuntimeException("No operation response found for requestId: " + requestId)
+                        );
+            } catch (Exception ex) {
+                log.error("Unable to get operation result", ex);
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
 }

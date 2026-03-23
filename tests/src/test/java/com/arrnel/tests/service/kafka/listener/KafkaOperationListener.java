@@ -1,8 +1,8 @@
-package com.arrnel.tests.service.listener;
+package com.arrnel.tests.service.kafka.listener;
 
-import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.OperationType;
-import com.arrnel.tests.service.KafkaStore;
+import com.arrnel.tests.service.kafka.KafkaStore;
 import com.arrnel.tests.util.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;

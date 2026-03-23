@@ -1,4 +1,4 @@
-package com.arrnel.tests.service.listener;
+package com.arrnel.tests.service.kafka.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;

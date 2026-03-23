@@ -1,6 +1,6 @@
 package com.arrnel.tests.util;
 
-import com.arrnel.tests.model.dto.*;
+import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.Currency;
 import net.datafaker.Faker;
 
@@ -10,7 +10,6 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -37,7 +36,7 @@ public class DataGenerator {
     public static Currency randomCurrency(@Nullable Currency excludeCurrency) {
         var currencies = Currency.values();
         var delta = excludeCurrency == null ? 1 : 2;
-        var index = new Random().nextInt(currencies.length - delta);
+        var index = ThreadLocalRandom.current().nextInt(currencies.length - delta);
         return Arrays.stream(currencies)
                 .filter(currency -> !currency.equals(Currency.UNKNOWN))
                 .filter(currency -> !currency.equals(excludeCurrency))
@@ -98,7 +97,7 @@ public class DataGenerator {
     public static CreateDepositRequestDTO generateDepositRequest() {
         return new CreateDepositRequestDTO(
                 generateOperationNumber(),
-                new Random().nextLong(),
+                generateLong(),
                 randomBigDecimal()
         );
     }
