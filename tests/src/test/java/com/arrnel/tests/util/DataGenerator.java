@@ -30,6 +30,10 @@ public class DataGenerator {
         return userIdCounter.incrementAndGet();
     }
 
+    public static Long generateOperationNumber() {
+        return generateLong();
+    }
+
     public static Currency randomCurrency(@Nullable Currency excludeCurrency) {
         var currencies = Currency.values();
         var delta = excludeCurrency == null ? 1 : 2;
@@ -69,27 +73,47 @@ public class DataGenerator {
     }
 
     public static CreateBankAccountRequestDTO generateCreateBankAccountRequest() {
-        return new CreateBankAccountRequestDTO(generateUserId());
+        return new CreateBankAccountRequestDTO(
+                generateOperationNumber(),
+                generateUserId()
+        );
     }
 
     public static CreateCurrencyWalletRequestDTO generateCurrencyWalletRequest() {
-        return new CreateCurrencyWalletRequestDTO(generateUserId(), randomCurrency());
+        return new CreateCurrencyWalletRequestDTO(
+                generateOperationNumber(),
+                generateUserId(),
+                randomCurrency()
+        );
     }
 
     public static CreateCurrencyWalletRequestDTO generateCurrencyWalletRequest(Long bankAccountId) {
-        return new CreateCurrencyWalletRequestDTO(bankAccountId, randomCurrency());
+        return new CreateCurrencyWalletRequestDTO(
+                generateOperationNumber(),
+                bankAccountId,
+                randomCurrency()
+        );
     }
 
     public static CreateDepositRequestDTO generateDepositRequest() {
-        return new CreateDepositRequestDTO(new Random().nextLong(), randomBigDecimal());
+        return new CreateDepositRequestDTO(
+                generateOperationNumber(),
+                new Random().nextLong(),
+                randomBigDecimal()
+        );
     }
 
     public static CreateDepositRequestDTO generateDepositRequest(Long currencyWalletId) {
-        return new CreateDepositRequestDTO(currencyWalletId, randomBigDecimal());
+        return new CreateDepositRequestDTO(
+                generateOperationNumber(),
+                currencyWalletId,
+                randomBigDecimal()
+        );
     }
 
     public static CreateTransferRequestDTO generateTransferRequest(Long sourceCurrencyWalletId, Long destinationCurrencyWalletId) {
         return new CreateTransferRequestDTO(
+                generateOperationNumber(),
                 sourceCurrencyWalletId,
                 destinationCurrencyWalletId,
                 randomBigDecimal(),
@@ -98,11 +122,20 @@ public class DataGenerator {
     }
 
     public static CreateWithdrawalRequestDTO generateWithdrawalRequest(Long currencyWalletId) {
-        return new CreateWithdrawalRequestDTO(currencyWalletId, randomBigDecimal());
+        return new CreateWithdrawalRequestDTO(
+                generateOperationNumber(),
+                currencyWalletId,
+                randomBigDecimal()
+        );
     }
 
     public static CreateRefundRequestDTO generateRefundRequest(Long transferId) {
-        return new CreateRefundRequestDTO(transferId, randomBigDecimal(), randomText());
+        return new CreateRefundRequestDTO(
+                generateOperationNumber(),
+                transferId,
+                randomBigDecimal(),
+                randomText()
+        );
     }
 
 }

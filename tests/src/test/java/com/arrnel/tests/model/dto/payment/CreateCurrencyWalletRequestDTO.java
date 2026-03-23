@@ -15,6 +15,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateCurrencyWalletRequestDTO(
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("bank_account_id")
         Long bankAccountId,
 
@@ -22,4 +25,17 @@ public record CreateCurrencyWalletRequestDTO(
         Currency currency
 
 ) implements Serializable {
+
+    public CreateCurrencyWalletRequestDTO operationNumber(Long operationNumber) {
+        return new CreateCurrencyWalletRequestDTO(operationNumber, this.bankAccountId, this.currency);
+    }
+
+    public CreateCurrencyWalletRequestDTO bankAccountId(Long bankAccountId) {
+        return new CreateCurrencyWalletRequestDTO(this.operationNumber, bankAccountId, this.currency);
+    }
+
+    public CreateCurrencyWalletRequestDTO currency(Currency currency) {
+        return new CreateCurrencyWalletRequestDTO(this.operationNumber, this.bankAccountId, currency);
+    }
+
 }

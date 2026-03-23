@@ -19,6 +19,11 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateRefundRequestDTO(
 
+        @NotNull(message = "{validation.operation_number.not_null}")
+        @Positive(message = "{validation.operation_number.positive}")
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @NotNull(message = "{validation.refund.payment.not_null}")
         @JsonProperty("transfer_id")
         Long transferId,

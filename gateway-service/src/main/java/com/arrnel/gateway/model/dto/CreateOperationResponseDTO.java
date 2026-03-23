@@ -16,6 +16,9 @@ public record CreateOperationResponseDTO(
         @JsonProperty("id")
         Long id,
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("status")
         PaymentOperationStatus status,
 

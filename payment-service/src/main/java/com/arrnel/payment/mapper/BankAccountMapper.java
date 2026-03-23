@@ -12,12 +12,14 @@ public class BankAccountMapper {
     public BankAccountEntity toEntity(CreateBankAccountRequestDTO requestDTO) {
         return BankAccountEntity.builder()
                 .userId(requestDTO.userId())
+                .operationNumber(requestDTO.operationNumber())
                 .build();
     }
 
     public CreateOperationResponseDTO toCreateResponseDTO(BankAccountEntity bankAccountEntity, OperationStatus status) {
         return CreateOperationResponseDTO.builder()
                 .id(bankAccountEntity.getId())
+                .operationNumber(bankAccountEntity.getOperationNumber())
                 .errorMessage(bankAccountEntity.getErrorMessage())
                 .createdAt(bankAccountEntity.getCreatedAt())
                 .status(status)

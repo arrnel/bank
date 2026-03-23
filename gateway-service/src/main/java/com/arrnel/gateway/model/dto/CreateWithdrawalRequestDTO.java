@@ -16,6 +16,11 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateWithdrawalRequestDTO(
 
+        @NotNull(message = "{validation.operation_number.not_null}")
+        @Positive(message = "{validation.operation_number.positive}")
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @NotNull(message = "{validation.withdrawal.wallet.not_null}")
         @Positive(message = "{validation.withdrawal.wallet.positive}")
         @JsonProperty("currency_wallet_id")

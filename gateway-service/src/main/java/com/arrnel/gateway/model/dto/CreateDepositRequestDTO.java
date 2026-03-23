@@ -21,6 +21,11 @@ public record CreateDepositRequestDTO(
         @JsonProperty("currency_wallet_id")
         Long currencyWalletId,
 
+        @NotNull(message = "{validation.operation_number.not_null}")
+        @Positive(message = "{validation.operation_number.positive}")
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @NotNull(message = "{validation.deposit.amount.not_null}")
         @Positive(message = "{validation.deposit.amount.positive}")
         @JsonProperty("amount")
