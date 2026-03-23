@@ -3,6 +3,8 @@ package com.arrnel.payment.model.dto;
 import com.arrnel.payment.data.enums.OperationStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,9 @@ public record CreateOperationResponseDTO(
 
         @JsonProperty("id")
         Long id,
+
+        @JsonProperty("operation_number")
+        Long operationNumber,
 
         @JsonProperty("status")
         OperationStatus status,

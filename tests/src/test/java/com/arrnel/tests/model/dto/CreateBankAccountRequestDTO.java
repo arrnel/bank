@@ -14,8 +14,20 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateBankAccountRequestDTO(
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("user_id")
         Long userId
 
 ) implements Serializable {
+
+    public CreateBankAccountRequestDTO operationNumber(Long operationNumber) {
+        return new CreateBankAccountRequestDTO(operationNumber, this.userId);
+    }
+
+    public CreateBankAccountRequestDTO userId(Long userId) {
+        return new CreateBankAccountRequestDTO(this.operationNumber, userId);
+    }
+
 }

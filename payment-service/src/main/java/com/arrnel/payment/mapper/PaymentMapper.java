@@ -16,6 +16,7 @@ public class PaymentMapper {
                                   CurrencyWalletEntity currencyWallet
     ) {
         return PaymentEntity.builder()
+                .operationNumber(requestDTO.operationNumber())
                 .paymentType(PaymentType.DEPOSIT)
                 .currency(currencyWallet.getCurrency())
                 .source(currencyWallet)
@@ -28,6 +29,7 @@ public class PaymentMapper {
                                   CurrencyWalletEntity destination
     ) {
         return PaymentEntity.builder()
+                .operationNumber(source.getOperationNumber())
                 .paymentType(PaymentType.TRANSFER)
                 .source(source)
                 .destination(destination)
@@ -40,6 +42,7 @@ public class PaymentMapper {
     public PaymentEntity toEntity(CreateWithdrawalRequestDTO requestDTO,
                                   CurrencyWalletEntity currencyWallet) {
         return PaymentEntity.builder()
+                .operationNumber(requestDTO.operationNumber())
                 .paymentType(PaymentType.TRANSFER)
                 .source(currencyWallet)
                 .currency(currencyWallet.getCurrency())
@@ -50,6 +53,7 @@ public class PaymentMapper {
     public CreateOperationResponseDTO toCreateResponseDTO(PaymentEntity entity) {
         return CreateOperationResponseDTO.builder()
                 .id(entity.getId())
+                .operationNumber(entity.getOperationNumber())
                 .status(entity.getStatus())
                 .errorMessage(entity.getErrorMessage())
                 .createdAt(entity.getCreatedAt())

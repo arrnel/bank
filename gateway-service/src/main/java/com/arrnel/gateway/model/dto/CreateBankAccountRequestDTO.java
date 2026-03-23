@@ -19,7 +19,12 @@ public record CreateBankAccountRequestDTO(
         @NotNull(message = "{validation.bank_account.user.not_null}")
         @Positive(message = "{validation.bank_account.user.positive}")
         @JsonProperty("user_id")
-        Long userId
+        Long userId,
+
+        @NotNull(message = "{validation.operation_number.not_null}")
+        @Positive(message = "{validation.operation_number.positive}")
+        @JsonProperty("operation_number")
+        Long operationNumber
 
 ) implements Serializable {
 }

@@ -14,6 +14,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateDepositRequestDTO(
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("currency_wallet_id")
         Long currencyWalletId,
 
@@ -21,4 +24,17 @@ public record CreateDepositRequestDTO(
         BigDecimal amount
 
 ) {
+
+    public CreateDepositRequestDTO operationNumber(Long operationNumber) {
+        return new CreateDepositRequestDTO(operationNumber, this.currencyWalletId, this.amount);
+    }
+
+    public CreateDepositRequestDTO currencyWalletId(Long currencyWalletId) {
+        return new CreateDepositRequestDTO(this.operationNumber, currencyWalletId, this.amount);
+    }
+
+    public CreateDepositRequestDTO amount(BigDecimal amount) {
+        return new CreateDepositRequestDTO(this.operationNumber, this.currencyWalletId, amount);
+    }
+
 }

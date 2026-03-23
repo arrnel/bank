@@ -15,6 +15,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateRefundRequestDTO(
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("transfer_id")
         Long transferId,
 
@@ -25,5 +28,21 @@ public record CreateRefundRequestDTO(
         String reason
 
 ) implements Serializable {
+
+    public CreateRefundRequestDTO operationNumber(Long operationNumber) {
+        return new CreateRefundRequestDTO(operationNumber, this.transferId, this.amount, this.reason);
+    }
+
+    public CreateRefundRequestDTO transferId(Long transferId) {
+        return new CreateRefundRequestDTO(this.operationNumber, transferId, this.amount, this.reason);
+    }
+
+    public CreateRefundRequestDTO amount(BigDecimal amount) {
+        return new CreateRefundRequestDTO(this.operationNumber, this.transferId, amount, this.reason);
+    }
+
+    public CreateRefundRequestDTO reason(String reason) {
+        return new CreateRefundRequestDTO(this.operationNumber, this.transferId, this.amount, reason);
+    }
 
 }

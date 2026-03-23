@@ -17,6 +17,9 @@ public record CreateOperationResponseDTO(
         @JsonProperty("id")
         Long id,
 
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @JsonProperty("status")
         OperationStatus status,
 
@@ -32,14 +35,36 @@ public record CreateOperationResponseDTO(
     @JsonCreator
     public CreateOperationResponseDTO(
             @JsonProperty("id") Long id,
+            @JsonProperty("operation_number") Long operationNumber,
             @JsonProperty("status") OperationStatus status,
             @JsonProperty("error_message") String errorMessage,
             @JsonProperty("created_at") LocalDateTime createdAt
     ) {
         this.id = id;
+        this.operationNumber = operationNumber;
         this.status = status;
         this.errorMessage = errorMessage;
         this.createdAt = createdAt;
+    }
+
+    public CreateOperationResponseDTO id(Long id) {
+        return new CreateOperationResponseDTO(id, this.operationNumber, this.status, this.errorMessage, this.createdAt);
+    }
+
+    public CreateOperationResponseDTO operationNumber(Long operationNumber) {
+        return new CreateOperationResponseDTO(this.id, operationNumber, this.status, this.errorMessage, this.createdAt);
+    }
+
+    public CreateOperationResponseDTO status(OperationStatus status) {
+        return new CreateOperationResponseDTO(this.id, this.operationNumber, status, this.errorMessage, this.createdAt);
+    }
+
+    public CreateOperationResponseDTO errorMessage(String errorMessage) {
+        return new CreateOperationResponseDTO(this.id, this.operationNumber, this.status, errorMessage, this.createdAt);
+    }
+
+    public CreateOperationResponseDTO createdAt(LocalDateTime createdAt) {
+        return new CreateOperationResponseDTO(this.id, this.operationNumber, this.status, this.errorMessage, createdAt);
     }
 
 }

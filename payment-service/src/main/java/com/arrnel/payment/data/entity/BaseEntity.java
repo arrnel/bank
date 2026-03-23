@@ -29,6 +29,10 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     protected Long id;
 
     @ToString.Include
+    @Column(name = "operation_number", nullable = false, updatable = false)
+    private Long operationNumber;
+
+    @ToString.Include
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

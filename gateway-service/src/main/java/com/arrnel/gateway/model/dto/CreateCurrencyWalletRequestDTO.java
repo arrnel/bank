@@ -22,6 +22,11 @@ public record CreateCurrencyWalletRequestDTO(
         @JsonProperty("bank_account_id")
         Long bankAccountId,
 
+        @NotNull(message = "{validation.operation_number.not_null}")
+        @Positive(message = "{validation.operation_number.positive}")
+        @JsonProperty("operation_number")
+        Long operationNumber,
+
         @NotNull(message = "{validation.currency_wallet.currency.not_null}")
         @JsonProperty("currency")
         Currency currency
