@@ -15,6 +15,7 @@ public class RefundMapper {
                                  OperationStatus status
     ) {
         return RefundEntity.builder()
+                .operationNumber(requestDTO.operationNumber())
                 .payment(payment)
                 .currency(payment.getCurrency())
                 .amount(requestDTO.amount())
@@ -26,6 +27,7 @@ public class RefundMapper {
     public CreateOperationResponseDTO toCreateResponseDTO(RefundEntity entity) {
         return CreateOperationResponseDTO.builder()
                 .id(entity.getId())
+                .operationNumber(entity.getOperationNumber())
                 .status(entity.getStatus())
                 .errorMessage(entity.getErrorMessage())
                 .createdAt(entity.getCreatedAt())

@@ -14,6 +14,7 @@ public class CurrencyWalletMapper {
 
     public CurrencyWalletEntity toEntity(CreateCurrencyWalletRequestDTO requestDTO, BankAccountEntity bankAccountEntity) {
         return CurrencyWalletEntity.builder()
+                .operationNumber(requestDTO.operationNumber())
                 .bankAccount(bankAccountEntity)
                 .currency(requestDTO.currency())
                 .balance(BigDecimal.ZERO)
@@ -23,6 +24,7 @@ public class CurrencyWalletMapper {
     public CreateOperationResponseDTO toCreateResponseDTO(CurrencyWalletEntity entity, OperationStatus status) {
         return CreateOperationResponseDTO.builder()
                 .id(entity.getId())
+                .operationNumber(entity.getOperationNumber())
                 .errorMessage(entity.getErrorMessage())
                 .createdAt(entity.getCreatedAt())
                 .status(status)
