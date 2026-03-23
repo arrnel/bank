@@ -12,11 +12,13 @@ import java.util.Objects;
 @Getter
 public class ApiErrorDTO implements Serializable {
 
+    @JsonProperty("api_version")
     private final String apiVersion;
+
+    @JsonProperty("error")
     private final Error error;
 
     public ApiErrorDTO(
-            @JsonProperty("api_version")
             String apiVersion,
             Error error
     ) {
@@ -25,13 +27,11 @@ public class ApiErrorDTO implements Serializable {
     }
 
     @Builder
-    public ApiErrorDTO(
-            @JsonProperty("api_version")
-            String apiVersion,
-            String code,
-            String message,
-            String domain,
-            String reason
+    public ApiErrorDTO(String apiVersion,
+                       String code,
+                       String message,
+                       String domain,
+                       String reason
     ) {
         this.apiVersion = apiVersion;
         this.error = new Error(
@@ -48,12 +48,10 @@ public class ApiErrorDTO implements Serializable {
     }
 
     @Builder(builderMethodName = "builderErrors", buildMethodName = "buildErrors")
-    public ApiErrorDTO(
-            @JsonProperty("api_version")
-            String apiVersion,
-            String code,
-            String message,
-            List<ErrorItem> errorItems
+    public ApiErrorDTO(String apiVersion,
+                       String code,
+                       String message,
+                       List<ErrorItem> errorItems
     ) {
         this.apiVersion = apiVersion;
         this.error = new Error(
