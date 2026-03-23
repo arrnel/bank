@@ -12,7 +12,10 @@ import java.util.Objects;
 @Getter
 public class ApiErrorDTO implements Serializable {
 
+    @JsonProperty("api_version")
     private final String apiVersion;
+
+    @JsonProperty("error")
     private final Error error;
 
     public ApiErrorDTO(String apiVersion, Error error) {
@@ -44,7 +47,8 @@ public class ApiErrorDTO implements Serializable {
     public ApiErrorDTO(String apiVersion,
                        String code,
                        String message,
-                       List<ErrorItem> errorItems) {
+                       List<ErrorItem> errorItems
+    ) {
         this.apiVersion = apiVersion;
         this.error = new Error(
                 code,
@@ -54,12 +58,15 @@ public class ApiErrorDTO implements Serializable {
     }
 
     public static ApiErrorDTO fromAttributesMap(String apiVersion, Map<String, Object> attributesMap) {
+        var status = ((Integer) attributesMap.get("status")).toString();
+        var error = (String) attributesMap.getOrDefault("error", "No message found");
+        var path = (String) attributesMap.getOrDefault("path", "No path found");
         return new ApiErrorDTO(
                 apiVersion,
-                ((Integer) attributesMap.get("status")).toString(),
-                ((String) attributesMap.getOrDefault("error", "No message found")),
-                ((String) attributesMap.getOrDefault("path", "No path found")),
-                ((String) attributesMap.getOrDefault("error", "No message found"))
+                status,
+                error,
+                path,
+                error
         );
     }
 
