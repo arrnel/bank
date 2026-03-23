@@ -2,61 +2,61 @@ create schema if not exists app;
 
 create table if not exists app.bank_accounts
 (
-    id            bigserial    not null unique check (id > 0),
-    operation_id  bigserial    not null unique check (operation_id > 0),
-    user_id       bigserial    not null unique check (user_id > 0),
-    error_message varchar(2000),
-    created_at    timestamp(3) not null,
-    updated_at    timestamp(3) not null,
-    version       bigserial    not null,
+    id               bigserial    not null unique check (id > 0),
+    operation_number bigserial    not null unique check (operation_number > 0),
+    user_id          bigserial    not null unique check (user_id > 0),
+    error_message    varchar(2000),
+    created_at       timestamp(3) not null,
+    updated_at       timestamp(3) not null,
+    version          bigserial    not null,
     primary key (id)
 );
 
 create table if not exists app.currency_wallets
 (
-    id              bigserial      not null unique check (id > 0),
-    operation_id    bigserial      not null unique check (operation_id > 0),
-    bank_account_id bigserial      not null check (id > 0),
-    currency        varchar(5)     not null check (length(currency) > 0),
-    balance         decimal(19, 6) not null,
-    error_message   varchar(2000),
-    created_at      timestamp(3)   not null,
-    updated_at      timestamp(3)   not null,
-    version         bigserial      not null,
+    id               bigserial      not null unique check (id > 0),
+    operation_number bigserial      not null unique check (operation_number > 0),
+    bank_account_id  bigserial      not null check (id > 0),
+    currency         varchar(5)     not null check (length(currency) > 0),
+    balance          decimal(19, 6) not null,
+    error_message    varchar(2000),
+    created_at       timestamp(3)   not null,
+    updated_at       timestamp(3)   not null,
+    version          bigserial      not null,
     primary key (id)
 );
 
 create table if not exists app.payments
 (
-    id             bigserial      not null unique check (id > 0),
-    operation_id   bigserial      not null unique check (operation_id > 0),
-    type           varchar(50)    not null check (length(type) > 0),
-    currency       varchar(5)     not null check (length(currency) > 0),
-    amount         decimal(19, 2) not null check (amount >= 0),
-    source_id      bigserial,
-    destination_id bigint,
-    comment        varchar(2000),
-    error_message  varchar(2000),
-    status         varchar(50)    not null check (length(status) > 0),
-    created_at     timestamp(3)   not null,
-    updated_at     timestamp(3)   not null,
-    version        bigserial      not null,
+    id               bigserial      not null unique check (id > 0),
+    operation_number bigserial      not null unique check (operation_number > 0),
+    type             varchar(50)    not null check (length(type) > 0),
+    currency         varchar(5)     not null check (length(currency) > 0),
+    amount           decimal(19, 2) not null check (amount >= 0),
+    source_id        bigserial,
+    destination_id   bigint,
+    comment          varchar(2000),
+    error_message    varchar(2000),
+    status           varchar(50)    not null check (length(status) > 0),
+    created_at       timestamp(3)   not null,
+    updated_at       timestamp(3)   not null,
+    version          bigserial      not null,
     primary key (id)
 );
 
 create table if not exists app.refunds
 (
-    id            bigserial      not null unique check (id > 0),
-    operation_id  bigserial      not null unique check (operation_id > 0),
-    payment_id    bigserial      not null check (payment_id > 0),
-    currency      varchar(5)     not null check (length(currency) > 0),
-    amount        decimal(19, 2) not null check (amount >= 0),
-    reason        varchar(2000),
-    error_message varchar(2000),
-    status        varchar(50)    not null check (length(status) > 0),
-    created_at    timestamp(3)   not null,
-    updated_at    timestamp(3)   not null,
-    version       bigserial      not null,
+    id               bigserial      not null unique check (id > 0),
+    operation_number bigserial      not null unique check (operation_number > 0),
+    payment_id       bigserial      not null check (payment_id > 0),
+    currency         varchar(5)     not null check (length(currency) > 0),
+    amount           decimal(19, 2) not null check (amount >= 0),
+    reason           varchar(2000),
+    error_message    varchar(2000),
+    status           varchar(50)    not null check (length(status) > 0),
+    created_at       timestamp(3)   not null,
+    updated_at       timestamp(3)   not null,
+    version          bigserial      not null,
     primary key (id)
 );
 
