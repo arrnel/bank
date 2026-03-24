@@ -9,9 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       WORKFLOW_REPORT_ID: on_pull_request
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      PROFILE: docker
       TEST_ENV: docker
       TEST_ARGS: ${{ vars.TEST_ARGS }}
       CURRENCY_FREAKS_API_KEY: ${{ secrets.CURRENCY_FREAKS_API_KEY }}
+      EXPECTED_PASS_RATE: ${{ vars.EXPECTED_PASS_RATE }}
 
     steps:
 

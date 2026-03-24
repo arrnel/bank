@@ -13,8 +13,11 @@ jobs:
   test-run:
     runs-on: ubuntu-latest
     env:
-      TEST_ENV: docker
       WORKFLOW_REPORT_ID: kafka_test
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      PROFILE: docker
+      TEST_ENV: docker
       CURRENCY_FREAKS_API_KEY: ${{ secrets.CURRENCY_FREAKS_API_KEY }}
       TAG_EXPR: ${{ vars.TAG_EXPR_KAFKA }}
       TEST_ARGS: ${{ vars.TEST_ARGS }}
