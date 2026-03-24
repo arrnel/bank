@@ -51,7 +51,7 @@ jobs:
         uses: ./.github/actions/generate-and-deploy-allure-report
         if: always()
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           subfolder: ${{ env.WORKFLOW_REPORT_ID }}
           report_name: PR ${{ github.event.pull_request.number }} Report
           allure_results_path: allure-results
