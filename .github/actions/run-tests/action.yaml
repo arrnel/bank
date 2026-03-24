@@ -22,7 +22,7 @@ inputs:
   test_container_title:
     description: Test container title
     required: true
-    default: "tests"
+    default: "bank-tests"
 
 runs:
   using: composite
