@@ -2,6 +2,13 @@ package com.arrnel.tests.model.enums;
 
 public class AllureTag {
 
+    // ------------ OWNER
+    public static final String OWNER_ARRNEL = "arrnel";
+
+
+    // ------------ TYPE
+    public static final String KAFKA_TEST = "kafka";
+
     // ------------ SERVICES
     public static final String GATEWAY_SERVICE_TEST = "gateway-service";
     public static final String PAYMENT_SERVICE_TEST = "payment-service";

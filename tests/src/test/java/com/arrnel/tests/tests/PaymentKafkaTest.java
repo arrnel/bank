@@ -3,6 +3,7 @@ package com.arrnel.tests.tests;
 import com.arrnel.tests.model.dto.payment.*;
 import com.arrnel.tests.model.enums.AllureTag;
 import com.arrnel.tests.util.DataGenerator;
+import io.qameta.allure.Owner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,8 @@ import static com.arrnel.tests.model.enums.OperationStatus.SUCCESS;
 import static com.arrnel.tests.util.DataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Owner(AllureTag.OWNER_ARRNEL)
+@Tag(AllureTag.KAFKA_TEST)
 @Tag(AllureTag.PAYMENT_SERVICE_TEST)
 @DisplayName("Payment service kafka tests")
 class PaymentKafkaTest extends BaseTest {
