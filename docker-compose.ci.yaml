@@ -8,45 +8,19 @@ services:
       - "5432:5432"
     environment:
       - CREATE_DATABASES=currency-service,payment-service
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     command: postgres -c max_connections=200 -c max_prepared_transactions=100
     volumes:
-      - bank-pg-data:/var/lib/postgresql/data
       - ./env/docker/postgres/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "${DB_USER:-postgres}", "-d", "postgres" ]
+      test: [ "CMD", "pg_isready", "-U", "${DB_USER}", "-d", "postgres" ]
       interval: 3s
       timeout: 3s
       retries: 5
     networks:
       - bank-network
   
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:9.6
-    restart: unless-stopped
-    ports:
-      - "5433:80"
-    volumes:
-      - bank-pgadmin-data:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-mymail@mail.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-12345}
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:80/misc/ping || exit -1
-      interval: 10s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - bank-network
-
   redis:
     container_name: redis
     image: redis:latest
@@ -54,8 +28,6 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --save 60 1 --loglevel warning --requirepass redis
-    volumes:
-      - bank-redis-data:/data
 
   zookeeper:
     container_name: zookeeper
@@ -79,10 +51,10 @@ services:
         condition: service_started
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
@@ -106,6 +78,11 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: wget --spider http://localhost:8091/actuator/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
     networks:
       - bank-network
 
@@ -118,8 +95,15 @@ services:
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
-      currency.bank.dc:
+      postgres:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: wget --spider http://localhost:8092/actuator/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
     networks:
       - bank-network
 
@@ -130,12 +114,12 @@ services:
       - "8090:8090"
     restart: unless-stopped
     healthcheck:
-      test: "wget --spider http://localhost:9001/actuator/health || exit 1"
+      test: wget --spider http://localhost:8090/actuator/health || exit 1
       interval: 10s
       timeout: 10s
       retries: 10
     depends_on:
-      payment.bank.dc:
+      kafka:
         condition: service_healthy
     networks:
       - bank-network
@@ -154,7 +138,7 @@ services:
       - ./allure-results:/bank/tests/build/allure-results
     depends_on:
       gateway.bank.dc:
-        condition: service_started
+        condition: service_healthy
     networks:
       - bank-network
 
