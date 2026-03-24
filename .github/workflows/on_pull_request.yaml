@@ -15,7 +15,7 @@ jobs:
       TEST_ENV: docker
       TEST_ARGS: ${{ vars.TEST_ARGS }}
       CURRENCY_FREAKS_API_KEY: ${{ secrets.CURRENCY_FREAKS_API_KEY }}
-      EXPECTED_PASS_RATE: ${{ vars.EXPECTED_PASS_RATE }}
+      EXPECTED_TESTS_PASSED_RATE: ${{ vars.EXPECTED_TESTS_PASSED_RATE }}
       IMAGE_PREFIX: arrnel
 
     steps:
