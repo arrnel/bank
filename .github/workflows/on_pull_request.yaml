@@ -16,6 +16,7 @@ jobs:
       TEST_ARGS: ${{ vars.TEST_ARGS }}
       CURRENCY_FREAKS_API_KEY: ${{ secrets.CURRENCY_FREAKS_API_KEY }}
       EXPECTED_PASS_RATE: ${{ vars.EXPECTED_PASS_RATE }}
+      IMAGE_PREFIX: arrnel
 
     steps:
 

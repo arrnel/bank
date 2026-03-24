@@ -21,6 +21,7 @@ jobs:
       CURRENCY_FREAKS_API_KEY: ${{ secrets.CURRENCY_FREAKS_API_KEY }}
       TAG_EXPR: ${{ vars.TAG_EXPR_KAFKA }}
       TEST_ARGS: ${{ vars.TEST_ARGS }}
+      IMAGE_PREFIX: arrnel
 
     steps:
 
