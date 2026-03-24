@@ -4,7 +4,7 @@ set -euo pipefail
 SHOW_LOGS="$1"
 REMOVE_COMPOSE_DATA="$2"
 COMPOSE_FILE_PATH="$3"
-PREFIX="$4"
+IMAGE_PREFIX="$4"
 TEST_CONTAINER_TITLE="$5"
 
 echo "### Run tests"
@@ -22,8 +22,8 @@ if [ "$REMOVE_COMPOSE_DATA" = "true" ]; then
   echo "### Close and remove compose containers ###"
   docker compose rm -sf
 
-  echo "### Remove test container image $PREFIX/$TEST_CONTAINER_TITLE:latest"
-  docker image rm $PREFIX/$TEST_CONTAINER_TITLE:latest
+  echo "### Remove test container image $IMAGE_PREFIX/$TEST_CONTAINER_TITLE:latest"
+  docker image rm $IMAGE_PREFIX/$TEST_CONTAINER_TITLE:latest
 
   echo "### Remove test_files_volume"
   docker volume rm test_files_volume
