@@ -24,7 +24,7 @@ import java.util.Map;
 @ParametersAreNonnullByDefault
 public class KafkaTopicConfig {
 
-    @Value("${spring.kafka.bootstrap-servers[0]}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
     private List<TopicConfig> topics;
 

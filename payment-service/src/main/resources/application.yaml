@@ -36,8 +36,6 @@ spring:
       - name: "operation-result-topic"
         partitions: 1
         replication-factor: 1
-    bootstrap-servers:
-      - localhost:9092
 
 logging:
   level:
@@ -85,6 +83,8 @@ spring:
   config:
     activate:
       on-profile: 'docker'
+  kafka:
+    bootstrap-servers: 'kafka:9092'
   datasource:
     url: 'jdbc:postgresql://bank-db:${DB_PORT:5432}/payment-service'
     username: ${DB_USER:postgres}
