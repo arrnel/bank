@@ -5,7 +5,7 @@ plugins {
     id 'com.google.cloud.tools.jib' version '3.4.1'
 }
 
-group = 'com.arrnel'
+group = 'com.bank'
 version = '0.0.1'
 
 configurations {
@@ -53,7 +53,7 @@ jib {
         environment = ['TZ': 'Europe/Moscow']
         creationTime = 'USE_CURRENT_TIMESTAMP'
         labels = [
-                'maintainer': 'Romanov Dmitriy @arrnel',
+                'maintainer': 'Romanov Dmitriy',
                 'version'   : "${project.version}".toString()
         ]
     }

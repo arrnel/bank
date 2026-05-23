@@ -1,9 +1,9 @@
-package com.arrnel.tests.model.enums;
+package com.bank.tests.model.enums;
 
 public class AllureTag {
 
     // ------------ OWNER
-    public static final String OWNER_ARRNEL = "arrnel";
+    public static final String OWNER = "owner";
 
 
     // ------------ TYPE

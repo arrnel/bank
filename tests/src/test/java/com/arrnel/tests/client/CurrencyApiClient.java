@@ -1,9 +1,9 @@
-package com.arrnel.tests.client;
+package com.bank.tests.client;
 
-import com.arrnel.tests.client.api.CurrencyApi;
-import com.arrnel.tests.model.dto.currency.CurrencyRateDTO;
-import com.arrnel.tests.model.enums.Currency;
-import com.arrnel.tests.util.JsonConverter;
+import com.bank.tests.client.api.CurrencyApi;
+import com.bank.tests.model.dto.currency.CurrencyRateDTO;
+import com.bank.tests.model.enums.Currency;
+import com.bank.tests.util.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;

@@ -1,4 +1,4 @@
-package com.arrnel.tests.service.kafka;
+package com.bank.tests.service.kafka;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;

@@ -1,8 +1,8 @@
-package com.arrnel.tests.tests;
+package com.bank.tests.tests;
 
-import com.arrnel.tests.config.di.ServiceConfig;
-import com.arrnel.tests.service.kafka.PaymentKafkaService;
-import com.arrnel.tests.service.rest.PaymentApiService;
+import com.bank.tests.config.di.ServiceConfig;
+import com.bank.tests.service.kafka.PaymentKafkaService;
+import com.bank.tests.service.rest.PaymentApiService;
 
 abstract class BaseTest {
 

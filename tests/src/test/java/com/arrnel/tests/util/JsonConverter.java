@@ -1,4 +1,4 @@
-package com.arrnel.tests.util;
+package com.bank.tests.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

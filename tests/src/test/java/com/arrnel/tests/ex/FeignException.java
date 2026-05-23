@@ -1,4 +1,4 @@
-package com.arrnel.tests.ex;
+package com.bank.tests.ex;
 
 import lombok.Getter;
 

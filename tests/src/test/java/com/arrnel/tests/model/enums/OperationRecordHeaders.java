@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.enums;
+package com.bank.tests.model.enums;
 
 import lombok.RequiredArgsConstructor;
 

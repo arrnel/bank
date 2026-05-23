@@ -1,14 +1,14 @@
-package com.arrnel.tests.service.kafka.listener;
+package com.bank.tests.service.kafka.listener;
 
-import com.arrnel.tests.model.dto.payment.*;
-import com.arrnel.tests.model.enums.OperationType;
-import com.arrnel.tests.service.kafka.KafkaStore;
-import com.arrnel.tests.util.JsonConverter;
+import com.bank.tests.model.dto.payment.*;
+import com.bank.tests.model.enums.OperationType;
+import com.bank.tests.service.kafka.KafkaStore;
+import com.bank.tests.util.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-import static com.arrnel.tests.model.enums.OperationRecordHeaders.OPERATION_TYPE;
+import static com.bank.tests.model.enums.OperationRecordHeaders.OPERATION_TYPE;
 
 @Slf4j
 public class KafkaOperationListener extends KafkaListener {

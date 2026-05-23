@@ -1,4 +1,4 @@
-package com.arrnel.tests.config;
+package com.bank.tests.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

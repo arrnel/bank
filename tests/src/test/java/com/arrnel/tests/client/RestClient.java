@@ -1,8 +1,8 @@
-package com.arrnel.tests.client;
+package com.bank.tests.client;
 
-import com.arrnel.tests.client.api.FeignApi;
-import com.arrnel.tests.client.decoder.ApiErrorDecoder;
-import com.arrnel.tests.config.Config;
+import com.bank.tests.client.api.FeignApi;
+import com.bank.tests.client.decoder.ApiErrorDecoder;
+import com.bank.tests.config.Config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Feign;
 import feign.Logger.Level;

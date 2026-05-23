@@ -1,7 +1,7 @@
-package com.arrnel.tests.util;
+package com.bank.tests.util;
 
-import com.arrnel.tests.model.dto.payment.*;
-import com.arrnel.tests.model.enums.Currency;
+import com.bank.tests.model.dto.payment.*;
+import com.bank.tests.model.enums.Currency;
 import net.datafaker.Faker;
 
 import javax.annotation.Nullable;

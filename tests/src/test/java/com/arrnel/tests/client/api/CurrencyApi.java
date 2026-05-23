@@ -1,7 +1,7 @@
-package com.arrnel.tests.client.api;
+package com.bank.tests.client.api;
 
-import com.arrnel.tests.model.dto.currency.CurrencyRateDTO;
-import com.arrnel.tests.model.enums.Currency;
+import com.bank.tests.model.dto.currency.CurrencyRateDTO;
+import com.bank.tests.model.enums.Currency;
 import feign.Param;
 import feign.RequestLine;
 

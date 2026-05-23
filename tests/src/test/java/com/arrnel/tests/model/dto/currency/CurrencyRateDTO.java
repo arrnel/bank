@@ -1,6 +1,6 @@
-package com.arrnel.tests.model.dto.currency;
+package com.bank.tests.model.dto.currency;
 
-import com.arrnel.tests.model.enums.Currency;
+import com.bank.tests.model.enums.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

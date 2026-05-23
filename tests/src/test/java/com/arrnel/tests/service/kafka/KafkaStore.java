@@ -1,9 +1,9 @@
-package com.arrnel.tests.service.kafka;
+package com.bank.tests.service.kafka;
 
 
-import com.arrnel.tests.config.Config;
-import com.arrnel.tests.model.dto.payment.*;
-import com.arrnel.tests.util.MapWithWait;
+import com.bank.tests.config.Config;
+import com.bank.tests.model.dto.payment.*;
+import com.bank.tests.util.MapWithWait;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;

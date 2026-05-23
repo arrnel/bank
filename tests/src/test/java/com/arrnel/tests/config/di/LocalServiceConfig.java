@@ -1,13 +1,13 @@
-package com.arrnel.tests.config.di;
+package com.bank.tests.config.di;
 
-import com.arrnel.tests.client.PaymentApiClient;
-import com.arrnel.tests.service.kafka.KafkaProducer;
-import com.arrnel.tests.service.kafka.KafkaStore;
-import com.arrnel.tests.service.kafka.PaymentKafkaService;
-import com.arrnel.tests.service.kafka.listener.KafkaOperationListener;
-import com.arrnel.tests.service.kafka.listener.KafkaOperationResultListener;
-import com.arrnel.tests.service.rest.PaymentApiService;
-import com.arrnel.tests.util.JsonConverter;
+import com.bank.tests.client.PaymentApiClient;
+import com.bank.tests.service.kafka.KafkaProducer;
+import com.bank.tests.service.kafka.KafkaStore;
+import com.bank.tests.service.kafka.PaymentKafkaService;
+import com.bank.tests.service.kafka.listener.KafkaOperationListener;
+import com.bank.tests.service.kafka.listener.KafkaOperationResultListener;
+import com.bank.tests.service.rest.PaymentApiService;
+import com.bank.tests.util.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
