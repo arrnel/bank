@@ -1,4 +1,4 @@
-package com.arrnel.tests.util;
+package com.bank.tests.util;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

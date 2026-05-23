@@ -1,4 +1,4 @@
-package com.arrnel.tests.config;
+package com.bank.tests.config;
 
 import feign.Logger.Level;
 

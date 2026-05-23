@@ -1,4 +1,4 @@
-package com.arrnel.tests.client.api;
+package com.bank.tests.client.api;
 
 public interface FeignApi {
 }

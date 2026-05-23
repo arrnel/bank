@@ -1,10 +1,10 @@
-package com.arrnel.tests.service.rest;
+package com.bank.tests.service.rest;
 
-import com.arrnel.tests.client.CurrencyApiClient;
-import com.arrnel.tests.ex.ApiException;
-import com.arrnel.tests.model.dto.ApiErrorDTO;
-import com.arrnel.tests.model.dto.currency.CurrencyRateDTO;
-import com.arrnel.tests.model.enums.Currency;
+import com.bank.tests.client.CurrencyApiClient;
+import com.bank.tests.ex.ApiException;
+import com.bank.tests.model.dto.ApiErrorDTO;
+import com.bank.tests.model.dto.currency.CurrencyRateDTO;
+import com.bank.tests.model.enums.Currency;
 import io.qameta.allure.Allure;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

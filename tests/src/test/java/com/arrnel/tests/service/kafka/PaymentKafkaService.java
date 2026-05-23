@@ -1,9 +1,9 @@
-package com.arrnel.tests.service.kafka;
+package com.bank.tests.service.kafka;
 
-import com.arrnel.tests.model.dto.*;
-import com.arrnel.tests.model.dto.payment.*;
-import com.arrnel.tests.model.enums.OperationType;
-import com.arrnel.tests.util.JsonConverter;
+import com.bank.tests.model.dto.*;
+import com.bank.tests.model.dto.payment.*;
+import com.bank.tests.model.enums.OperationType;
+import com.bank.tests.util.JsonConverter;
 import io.qameta.allure.Allure;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.arrnel.tests.model.enums.OperationRecordHeaders.OPERATION_TYPE;
-import static com.arrnel.tests.model.enums.OperationType.*;
+import static com.bank.tests.model.enums.OperationRecordHeaders.OPERATION_TYPE;
+import static com.bank.tests.model.enums.OperationType.*;
 
 @Slf4j
 @RequiredArgsConstructor

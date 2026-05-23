@@ -1,7 +1,7 @@
-package com.arrnel.tests.client;
+package com.bank.tests.client;
 
-import com.arrnel.tests.client.api.GatewayApi;
-import com.arrnel.tests.model.dto.payment.*;
+import com.bank.tests.client.api.GatewayApi;
+import com.bank.tests.model.dto.payment.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;

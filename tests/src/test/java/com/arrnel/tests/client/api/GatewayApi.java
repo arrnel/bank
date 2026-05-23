@@ -1,6 +1,6 @@
-package com.arrnel.tests.client.api;
+package com.bank.tests.client.api;
 
-import com.arrnel.tests.model.dto.payment.*;
+import com.bank.tests.model.dto.payment.*;
 import feign.RequestLine;
 
 public interface GatewayApi extends FeignApi {

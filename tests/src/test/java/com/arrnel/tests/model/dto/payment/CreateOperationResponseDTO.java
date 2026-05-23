@@ -1,6 +1,6 @@
-package com.arrnel.tests.model.dto.payment;
+package com.bank.tests.model.dto.payment;
 
-import com.arrnel.tests.model.enums.OperationStatus;
+import com.bank.tests.model.enums.OperationStatus;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,6 @@
-package com.arrnel.tests.ex;
+package com.bank.tests.ex;
 
-import com.arrnel.tests.model.dto.ApiErrorDTO;
+import com.bank.tests.model.dto.ApiErrorDTO;
 import lombok.Getter;
 
 @Getter

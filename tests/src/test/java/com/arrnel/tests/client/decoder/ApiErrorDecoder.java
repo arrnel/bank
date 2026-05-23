@@ -1,8 +1,8 @@
-package com.arrnel.tests.client.decoder;
+package com.bank.tests.client.decoder;
 
-import com.arrnel.tests.ex.ApiException;
-import com.arrnel.tests.ex.FeignException;
-import com.arrnel.tests.model.dto.ApiErrorDTO;
+import com.bank.tests.ex.ApiException;
+import com.bank.tests.ex.FeignException;
+import com.bank.tests.model.dto.ApiErrorDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;

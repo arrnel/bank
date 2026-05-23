@@ -1,4 +1,4 @@
-package com.arrnel.tests.jupiter.extension;
+package com.bank.tests.jupiter.extension;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;

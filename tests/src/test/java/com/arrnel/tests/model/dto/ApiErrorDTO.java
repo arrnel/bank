@@ -1,4 +1,4 @@
-package com.arrnel.tests.model.dto;
+package com.bank.tests.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

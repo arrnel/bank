@@ -1,6 +1,6 @@
-package com.arrnel.tests.model.dto.payment;
+package com.bank.tests.model.dto.payment;
 
-import com.arrnel.tests.model.enums.Currency;
+import com.bank.tests.model.enums.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
